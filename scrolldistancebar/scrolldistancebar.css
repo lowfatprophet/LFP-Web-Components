@@ -1,0 +1,15 @@
+@layer lfp {
+  lfp-scrolldistancebar {
+    display: block;
+    width: 100%;
+    height: 5px;
+
+    .meter {
+      width: 100%;
+      height: 100%;
+      background: green;
+      scale: 0 1;
+      transform-origin: left;
+    }
+  }
+}
