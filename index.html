@@ -3,33 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="common.css">
-  <!-- ToC component -->
-  <link rel="stylesheet" href="toc/toc.css">
-  <script src="toc/toc.js" defer></script>
-  <!-- Disclosure component -->
-  <script src="disclosure/disclosure.js" defer></script>
-  <!-- Toast component -->
-  <link rel="stylesheet" href="toast/toast.css">
-  <script src="toast/toast.js" defer></script>
-  <!-- Tablist component -->
-  <link rel="stylesheet" href="tablist/tablist.css">
-  <script src="tablist/tablist.js" defer></script>
-  <!-- Progressbar component -->
-  <link rel="stylesheet" href="progressbar/progressbar.css">
-  <script src="progressbar/progressbar.js" defer></script>
-  <!-- Heading component -->
-  <link rel="stylesheet" href="heading/heading.css">
-  <script src="heading/heading.js" defer></script>
-  <!-- Scroll distance component-->
-  <link rel="stylesheet" href="scrollmeter/scrollmeter.css">
-  <script src="scrollmeter/scrollmeter.js" defer></script>
-  <!-- Number input component -->
-  <link rel="stylesheet" href="numberinput/numberinput.css">
-  <script src="numberinput/numberinput.js" defer></script>
-  <!-- Nixie Tube component -->
-  <link rel="stylesheet" href="nixie/nixie.css">
-  <script src="nixie/nixie.js" defer></script>
+  <link rel="stylesheet" href="styles/common.css">
+
+  <script type="module">
+    import './dist/disclosure.js';
+    import './dist/heading.js';
+    import './dist/nixie.js';
+    import './dist/numberinput.js';
+    import './dist/progressbar.js';
+    import './dist/scrollmeter.js';
+    import './dist/skeleton.js';
+    import './dist/tablist.js';
+    import LFPToast from './dist/toast.js';
+    import './dist/toc.js';
+
+    // Toast component code
+    document.querySelector('#toast-form')
+      .addEventListener('submit', function(event) {
+        event.preventDefault();
+        LFPToast.emit(
+            this.querySelector('[name="title"]').value,
+            this.querySelector('[name="description"]').value,
+            !!this.querySelector('[name="dismissable"]').checked,
+        );
+      });
+
+    // Nixie tube component as clock
+    const $clock = document.querySelector('#clock');
+    const $digits = new Set();
+    ['hour', 'minute', 'second'].forEach(cat => {
+      $digits.add($clock.querySelector(`#clock #${cat} > :nth-child(1)`));
+      $digits.add($clock.querySelector(`#clock #${cat} > :nth-child(2)`));
+    });
+    const setTime = () => {
+      let i = 0;
+      let time = new Date().toLocaleTimeString();
+      let timeArray = time.split('').filter(d => d !== ':');
+      $digits.forEach(digit => {
+        digit.setAttribute('active-digit', timeArray[i]);
+        i++;
+      });
+
+      $clock.dateTime = time;
+    };
+    setTime();
+    setInterval(setTime, 1000);
+  </script>
   <title>Web Components</title>
 </head>
 <body>
@@ -76,6 +95,15 @@
           <p>Specify the root element inside which the component looks for headings and other elements to index. Accepts every kind of valid CSS selector. Defaults to <code>document</code>.</p>
         </dd>
       </dl>
+      <p><b>Note</b>: If you have concerns about the fact that this component is rendered at the client and does indeed not have any meaningful fallback in case things go awry, you can implement a fallback yourself.</p>
+      <ol>
+        <li>
+          Consider this component to be a progressive enhancement by itself. If you are heavily dependent on the presence of your ToC on the page, you might want to render it server-side anyway.
+        </li>
+        <li>
+          In case you still want to use this component: Simply add your barebones ToC inside the element. Once the component is hooked to the DOM, your placeholder gets replaced with the component's logically connected contents.
+        </li>
+      </ol>
       <h3>Styling</h3>
       <p>This component is quite opiniated in its styling. By including the component's custom CSS you agree to a certain style that is easy to override but nonetheless sets a bit of style up.</p>
       <p>To mitigate this, just do not include the CSS or override the default styles. Be aware of the following styling structure:</p>
@@ -130,6 +158,7 @@
     dismissable: boolean
   }
 }</pre>
+      <p>Import the class with <code>import LFPToast from 'lfp-wc/toast</code>.</p>
       <div class="demo-area" description="Type in a message and a title to demo the toast component!">
         <form id="toast-form">
           <input type="text" name="title" id="title-toast-input">
@@ -138,19 +167,6 @@
           <label for="dismissable-toast-input">Dismissable toast?</label>
           <input type="submit" value="Toast!">
         </form>
-        <script>
-          // DEBUGGING
-          document
-            .querySelector('#toast-form')
-            .addEventListener('submit', function(event) {
-              event.preventDefault();
-              LFPToast.emit(
-                  this.querySelector('[name="title"]').value,
-                  this.querySelector('[name="description"]').value,
-                  !!this.querySelector('[name="dismissable"]').checked,
-              );
-            });
-        </script>
       </div>
       <lfp-toast close-delay="2500" animation-delay="1000"></lfp-toast>
     </section>
@@ -253,28 +269,6 @@
             }
           }
         </style>
-        <script defer>
-          // DEBUGGING
-          const $clock = document.querySelector('#clock');
-          const $digits = new Set();
-          ['hour', 'minute', 'second'].forEach(cat => {
-            $digits.add($clock.querySelector(`#clock #${cat} > :nth-child(1)`));
-            $digits.add($clock.querySelector(`#clock #${cat} > :nth-child(2)`));
-          });
-          const setTime = () => {
-            let i = 0;
-            let time = new Date().toLocaleTimeString();
-            let timeArray = time.split('').filter(d => d !== ':');
-            $digits.forEach(digit => {
-              digit.setAttribute('active-digit', timeArray[i]);
-              i++;
-            });
-      
-            $clock.dateTime = time;
-          };
-          setTime();
-          setInterval(setTime, 1000);
-        </script>
       </div>
       <p>It's not about the clock, that's merely a demonstrator. It's more about the specific clock design with Nixie tubes. These Nixies are driven by a web component, every digit is its own component. The clock merely updates the component's attributes every once in a while and that's it.</p>
       <p>This demo uses <a href="https://fonts.google.com/specimen/Advent+Pro">Advent Pro from Google Fonts</a> because it supports variable font weights. The default font weight is set to 300 which has not necessarily an impact on your font face because quite a few monospaced fonts do not support lighter font weights. But the Nixie Tube component uses a normal 400 font weight for digits that are active (and "glowing"); by transitioning between the different weights there is the impression that the wire is starting to glow. Be aware that this effect might not work if you use a font that is not capable of displaying lighter font weights.</p>

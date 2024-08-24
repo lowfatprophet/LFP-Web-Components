@@ -1,4 +1,5 @@
 {
+    "include": ["./src/**/*"],
     "compilerOptions": {
         /* Base options */
         "esModuleInterop": true,
@@ -7,11 +8,14 @@
         "verbatimModuleSyntax": true,
         // "moduleDetection": "force",
 
+        "outDir": "dist",
+
         "module": "ESNext",
         "lib": [
             "ESNext",
             "DOM",
-            "DOM.Iterable"
+            "DOM.Iterable",
+            "es2021"
         ],
         "sourceMap": false,
         "removeComments": true,

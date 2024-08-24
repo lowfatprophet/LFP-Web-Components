@@ -72,6 +72,11 @@ This attribute stands for additional elements you want to include in your ToCs (
 
 Specify the root element inside which the component looks for headings and other elements to index. Accepts every kind of valid CSS selector. Defaults to `document`.
 
+**Note**: If you have concerns about the fact that this component is rendered at the client and does indeed not have any meaningful fallback in case things go awry, you can implement a fallback yourself.
+
+1. Consider this component to be a progressive enhancement by itself. If you are heavily dependent on the presence of your ToC on the page, you might want to render it server-side anyway.
+2. In case you still want to use the component: Simply add your barebones ToC inside the element. Once the component is hooked to the DOM, your placeholder gehts replaced with the component's logically connected contents.
+
 #### Styling
 
 This component is quite opiniated in its styling. By including the component's custom CSS you agree to a certain style that is easy to override but nonetheless sets a bit of style up.
@@ -117,6 +122,8 @@ detail: {
   dismissable: boolean
 }
 ```
+
+Import the class with `import LFPToast from 'lfp-wc/toast`.
 
 ### Tablist component
 
