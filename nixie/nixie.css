@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&display=swap');
+
+@layer lfp {
+  lfp-nixie-tube {
+    --_transition-speed: 250ms;
+    --_font-clr: #000;
+    display: inline-grid;
+    grid-template-areas: "digit";
+    height: 1lh;
+    width: 1ch;
+    font-family: "Advent Pro", monospace;
+    font-size: 4rem;
+    
+    > div {
+      grid-area: digit;
+      color: color(from var(--_font-clr) srgb r g b / 0.125);
+      font-weight: 300;
+      /* opacity: 0.125; */
+      text-align: center;
+      transition: color var(--_transition-speed) ease-in-out;
+      will-change: opacity;
+      user-select: none;
+      isolation: isolate;
+      
+      &.selected {
+        color: red;
+        font-weight: 400;
+        text-shadow: 0 0 5px #f00a;
+        /* color: color(from currentcolor srgb r g b / 1); */
+        backdrop-filter: blur(1px);
+        transition: color var(--_transition-speed) ease-in-out,
+          font-weight var(--_transition-speed) ease-in-out;
+      }
+    }
+    
+    /* &:has(.selected) > div:not(.selected) {
+      color: color(from var(--_font-clr) srgb r g b / 0.07);
+    } */
+    /* &:has(.selected) > div:not(.selected) {
+      color: rgb(0 0 0 / 0.07);
+    } */
+    
+    &:not([preserve-stack]) > div.selected { z-index: 1; }
+  }
+}

@@ -1,0 +1,23 @@
+@layer lfp {
+  lfp-toc {
+    ol {
+      list-style-type: none;
+      counter-reset: item;
+      margin: 0;
+      padding: 0;
+
+      & > li {
+        display: table;
+        counter-increment: item;
+      }
+
+      & > li::before {
+        content: counters(item, ".") ". ";
+        display: table-cell;
+        padding-inline-end: 0.6em;
+      }
+    }
+
+    li ol > li::before { content: counters(item, ".") " "; }
+  }
+}

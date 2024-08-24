@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="common.css">
+  <!-- ToC component -->
+  <link rel="stylesheet" href="toc/toc.css">
+  <script src="toc/toc.js" defer></script>
   <!-- Disclosure component -->
   <script src="disclosure/disclosure.js" defer></script>
   <!-- Toast component -->
@@ -13,132 +16,303 @@
   <link rel="stylesheet" href="tablist/tablist.css">
   <script src="tablist/tablist.js" defer></script>
   <!-- Progressbar component -->
-   <link rel="stylesheet" href="progressbar/progressbar.css">
-   <script src="progressbar/progressbar.js" defer></script>
-   <!-- Heading component -->
-   <link rel="stylesheet" href="heading/heading.css">
-   <script src="heading/heading.js" defer></script>
-   <!-- Scroll distance component-->
-   <link rel="stylesheet" href="scrolldistancebar/scrolldistancebar.css">
-   <script src="scrolldistancebar/scrolldistancebar.js" defer></script>
-   <!-- Number input component -->
-   <link rel="stylesheet" href="numberinput/numberinput.css">
-   <script src="numberinput/numberinput.js" defer></script>
+  <link rel="stylesheet" href="progressbar/progressbar.css">
+  <script src="progressbar/progressbar.js" defer></script>
+  <!-- Heading component -->
+  <link rel="stylesheet" href="heading/heading.css">
+  <script src="heading/heading.js" defer></script>
+  <!-- Scroll distance component-->
+  <link rel="stylesheet" href="scrollmeter/scrollmeter.css">
+  <script src="scrollmeter/scrollmeter.js" defer></script>
+  <!-- Number input component -->
+  <link rel="stylesheet" href="numberinput/numberinput.css">
+  <script src="numberinput/numberinput.js" defer></script>
+  <!-- Nixie Tube component -->
+  <link rel="stylesheet" href="nixie/nixie.css">
+  <script src="nixie/nixie.js" defer></script>
   <title>Web Components</title>
 </head>
 <body>
 
+  <lfp-scrollmeter></lfp-scrollmeter>
+
   <header>
     <h1>Web Components</h1>
-    <lfp-scrollmeter></lfp-scrollmeter>
+    <lfp-toc min-level="5" set-id mark-current></lfp-toc>
   </header>
 
   <main>
-    <h2>Disclosure component</h2>
-    <p>Simply used with <code>&lt;lfp-disclosure&gt;&lt;/lfp-disclosure&gt;</code>. Add the <code>[trigger]</code> and <code>[content]</code> elements inside the component.</p>
-    <div class="demo-area" description="Test the disclosure component!">
-      <lfp-disclosure>
-        <button trigger hidden>Click me!</button>
-        <div content>
-          <p>Now you see me, now you don't!</p>
-        </div>
-      </lfp-disclosure>
-    </div> 
+    <section>
+      <h2 id="toc-component">ToC component</h2>
+      <p>Yes, the above table of content is made with the custom <code>&lt;lfp-toc&gt;&lt;/lfp-toc&gt;</code> component.</p>
+      <h3>Customization</h3>
+      <p>By default, the component displays only elements from level 2 to 5 (<code>&lt;h2&gt;</code>...<code>&lt;h5&gt;</code>). If you want to display other levels of headings, you can do this by applying the following attributes:</p>
+      <dl>
+        <dt><code>max-level</code></dt>
+        <dd>
+          <p>Set an upper bound for the table of content, so that only headings with a lower level are included, this is useful if you do not want to include the top most headings or only want to include a subsection of your page with <code>h4</code>s and <code>h5</code>s. Defaults to <code>2</code>, so does not include the <code>h1</code> heading of which only one should exist on any given page.</p>
+          <p><b>Caution</b>: Be aware that the value for <code>max-level</code> should reflect the level of your ToC's first heading element. This element should also be on the top most level of your content hierarchy (i.e., do not start your ToC with an <code>h3</code> if your top most heading element is <code>h2</code>).</p>
+        </dd>
+        <dt><code>min-level</code></dt>
+        <dd>
+          <p>Set a lower bound for the table of content if you do not want to feature headings of a certain lower level. Defaults to <code>6</code>, so that all headings are included in the ToC.</p>
+        </dd>
+        <dt><code>set-id</code></dt>
+        <dd>
+          <p>The component is capable of giving each of the heading you want to include in the table of content a corresponding id, so that linking and deeplinking are working as expected. This is done by generating a unique id from the text content of the heading element. And don't worry, if any of your headings already have IDs, they will stay untouched.</p>
+        </dd>
+        <dt><code>no-numeration</code></dt>
+        <dd>
+          <p>Add this attribute if you do not want the ToC to be numbered.</p>
+          <p><b>Note</b>: If there is only a single item on a given heading level, no numeration is shown by default, regardless of this attribute being set or not.</p>
+        </dd>
+        <dt><code>add-items</code></dt>
+        <dd>
+          <p>This attribute stands for additional elements you want to include in your ToCs (e.g., for example custom headings or captions). They get added to the list just like regular headings, only without the capability of nesting because there is no hierarchy to follow.</p>
+          <p><b>Note</b>: If you want to only display custom headings or elements in your ToC, simply add them with the <code>add-items</code>-attribute and set both, <code>min-level</code> <em>and</em> <code>max-level</code> to <code>0</code>. This way, no heading gets selected and only custom additional elements are added to the list.</p>
+        </dd>
+        <dt><code>toc-root</code></dt>
+        <dd>
+          <p>Specify the root element inside which the component looks for headings and other elements to index. Accepts every kind of valid CSS selector. Defaults to <code>document</code>.</p>
+        </dd>
+      </dl>
+      <h3>Styling</h3>
+      <p>This component is quite opiniated in its styling. By including the component's custom CSS you agree to a certain style that is easy to override but nonetheless sets a bit of style up.</p>
+      <p>To mitigate this, just do not include the CSS or override the default styles. Be aware of the following styling structure:</p>
+      <ul>
+        <li>To change the numeration, use <code>counter</code> and <code>counter-increment</code>.</li>
+        <li>To override or style the numeration, access the pseudo element with <code>lfp-toc ol li::before { }</code>.</li>
+      </ul>
+      <h3>Example usage</h3>
+      <p>The above mentioned customization settings can be used as follows:</p>
+      <pre>&lt;lfp-toc min-level="4" max-level="3" add-items="dt" toc-root="main" set-id no-numeration&gt;&lt;/lfp-toc&gt;</pre>
+      <p>This ToC component is...</p>
+      <ul>
+        <li>... displaying only headings of level 3 and 4 (<code>h3</code>, <code>h4</code>),</li>
+        <li>... additionally showing <code>dt</code> elements,</li>
+        <li>... setting IDs to elements without one,</li>
+        <li>... and displays an unordered (i.e., not numbered) list.</li>
+      </ul>
+      <p>Have a look at this <a href="examples/toctest.html">example</a> for a thourough demonstration of the capabilities of <code>&lt;lfp-toc&gt;&lt;lfp-toc&gt;</code>.</p>
+    </section>
 
-    <h2 id="toast-component">Toast component</h2>
-    <p>Simply used with <code>&lt;lfp-toast&gt;&lt;/lfp-toast&gt;</code>. Adjust the duration the toast is visible by adding a <code>close-delay</code>-attribute and specifying the duration in milliseconds. If you want to trigger an animation before the toast gets removed from the DOM, add a <code>animation-delay</code>-attribute and specify the time your animation will take to run. For an animation to run, simply add <code>animation: &lt;animation-name&gt; &lt;animation-duration&gt; &lt;animation-play-state&gt;</code>. Make sure that your animation features the following criteria:</p>
-    <ul>
-      <li>the animation's current play state is <code>"paused"</code></li>
-      <li>the animation's durations equals the toast components value for <code>animation-delay</code></li>
-      <li>the animations's name starts with <code>"toast..."</code></li>
-    </ul>
-    <p>Trigger an toast by emitting a new toast with <code>LFPToast.emit(description, title?, dismissable=false)</code>. Alternatively, dispatch your own event: LFPToast listens to <code>'lfp:toast'</code> and requires your event to feature <code>{ detail: { title: string, description: string, dismissable: boolean } }</code>.</p>
-    <div class="demo-area" description="Type in a message and a title to demo the toast component!">
-      <form id="toast-form">
-        <input type="text" name="title" id="title-toast-input">
-        <input type="text" name="description" id="description-toast-input">
-        <input type="checkbox" name="dismissable" id="dismissable-toast-input">
-        <label for="dismissable-toast-input">Dismissable toast?</label>
-        <input type="submit" value="Toast!">
-      </form>
-      <script>
-        // DEBUGGING
-        document
-          .querySelector('#toast-form')
-          .addEventListener('submit', function(event) {
-            event.preventDefault();
-            LFPToast.emit(
-                this.querySelector('[name="title"]').value,
-                this.querySelector('[name="description"]').value,
-                !!this.querySelector('[name="dismissable"]').checked,
-            );
-          });
-      </script>
-    </div>
-    <lfp-toast close-delay="2500" animation-delay="1000"></lfp-toast>
+    <section>
+      <h2 id="disclosure-component">Disclosure component</h2>
+      <p>Simply used with <code>&lt;lfp-disclosure&gt;&lt;/lfp-disclosure&gt;</code>. Add the <code>[trigger]</code> and <code>[content]</code> elements inside the component.</p>
+      <div class="demo-area" description="Test the disclosure component!">
+        <lfp-disclosure>
+          <button trigger hidden>Click me!</button>
+          <div content>
+            <p>Now you see me, now you don't!</p>
+          </div>
+        </lfp-disclosure>
+      </div>
+    </section>
+
+    <section>
+      <h2 id="scrollmeter-component">Scrollmeter component</h2>
+      <p>You witness it the whole time visiting this page,</p>
+    </section>
+
+    <section>
+      <h2 id="toast-component">Toast component</h2>
+      <p>Simply used with <code>&lt;lfp-toast&gt;&lt;/lfp-toast&gt;</code>. Adjust the duration the toast is visible by adding a <code>close-delay</code>-attribute and specifying the duration in milliseconds. If you want to trigger an animation before the toast gets removed from the DOM, add a <code>animation-delay</code>-attribute and specify the time your animation will take to run. For an animation to run, simply add <code>animation: &lt;animation-name&gt; &lt;animation-duration&gt; &lt;animation-play-state&gt;</code>. Make sure that your animation features the following criteria:</p>
+      <ul>
+        <li>the animation's current play state is <code>"paused"</code></li>
+        <li>the animation's durations equals the toast components value for <code>animation-delay</code></li>
+        <li>the animations's name starts with <code>"toast..."</code></li>
+      </ul>
+      <p>Trigger an toast by emitting a new toast with <code>LFPToast.emit(description, title?, dismissable=false)</code>. Alternatively, dispatch your own event: LFPToast listens to <code>'lfp:toast'</code> and requires your event to feature:</p>
+      <pre>{
+  detail: {
+    title: string,
+    description: string,
+    dismissable: boolean
+  }
+}</pre>
+      <div class="demo-area" description="Type in a message and a title to demo the toast component!">
+        <form id="toast-form">
+          <input type="text" name="title" id="title-toast-input">
+          <input type="text" name="description" id="description-toast-input">
+          <input type="checkbox" name="dismissable" id="dismissable-toast-input">
+          <label for="dismissable-toast-input">Dismissable toast?</label>
+          <input type="submit" value="Toast!">
+        </form>
+        <script>
+          // DEBUGGING
+          document
+            .querySelector('#toast-form')
+            .addEventListener('submit', function(event) {
+              event.preventDefault();
+              LFPToast.emit(
+                  this.querySelector('[name="title"]').value,
+                  this.querySelector('[name="description"]').value,
+                  !!this.querySelector('[name="dismissable"]').checked,
+              );
+            });
+        </script>
+      </div>
+      <lfp-toast close-delay="2500" animation-delay="1000"></lfp-toast>
+    </section>
     
-    <h2>Tablist component</h2>
-    <p>Simply used with <code>&lt;lfp-tablist&gt;&lt;/lfp-tablist&gt;</code>. Add a <code>tab-description</code>-attribute to each of the tab panels that you place inside of the component. This attribute's content is than placed in the tab navigation menu. Optionally add <code>menu-orientation="vertical"</code> for vertically oriented tab buttons.</p>
-    <div class="demo-area" description="Click your way through the tab list component!">
-      <lfp-tablist>
-        <section tab-description="Get started">
-          <p>Add the <code>&lt;lfp-tablist&gt;&lt;/lfp-tablist&gt;</code>-component to your site and the content for each of your tab panels inside of it. Just do not forget to add the <code>tab-description</code>-attribute to every panel. The panels can be organised in any way you like, just keep in mind that <code>tab-description</code>-attributes are not allowed to be nested (except for when your tab panel itself contains another tab list).</p>
-          <p>Using a descriptive tab text is advised, the component falls back to a numberered list, if no description is provided.</p>
-        </section>
-        <section tab-description="Advanced usage">
-          <p>If your layout requires a vertically oriented navigation area, add the <code>menu-orientation="vertical"</code>-attribute to your component. The tab buttons will be displayed in a stacked order and the keyboard navigation is adjusted accordingly.</p>
-          <p>Don't forget to add headings to your tab panel. This component offers two ways to add headings (that work with site and cross-site navigation):</p>
-          <ul>
-            <li>Simply put a heading element inside your tab panel. The document's order is unchanged by the tab list component. If you want your headings to be reachable by links, just add an <code>id</code>-attribute.</li>
-            <li>If the component's tab buttons should be your headings, add the <code>heading-level="3"</code>-attribute to the component itself. The number specifies the requested heading level (<code>h3</code> in this case).</li>
-          </ul>
-        </section>
-        <section tab-description="Customization">
-          <p>Customization is easily done. Aside from bare minimum regarding the vertical tab button design, there really are no predesigned elements with the tab listing. Just keep in mind that the navigation area is structured as follows: <code>ul>li>button</code>. The tab panels are hidden on <code>[aria-selected="true"]</code> by shrinking the container down and apply <code>visibility: hidden</code>.</p>
-          <p>To style the currently active tab button, simply target <code>button.active</code> inside the component's <code>nav</code>-element. The button receives the <code>button</code>-class when its associated tab panel is currently shown.</p>
-        </section>
-      </lfp-tablist>
-    </div>
+    <section>
+      <h2 id="tablist-component">Tablist component</h2>
+      <p>Simply used with <code>&lt;lfp-tablist&gt;&lt;/lfp-tablist&gt;</code>. Add a <code>tab-description</code>-attribute to each of the tab panels that you place inside of the component. This attribute's content is than placed in the tab navigation menu. Optionally add <code>menu-orientation="vertical"</code> for vertically oriented tab buttons.</p>
+      <div class="demo-area" description="Click your way through the tab list component!">
+        <lfp-tablist>
+          <section tab-description="Get started">
+            <p>Add the <code>&lt;lfp-tablist&gt;&lt;/lfp-tablist&gt;</code>-component to your site and the content for each of your tab panels inside of it. Just do not forget to add the <code>tab-description</code>-attribute to every panel. The panels can be organised in any way you like, just keep in mind that <code>tab-description</code>-attributes are not allowed to be nested (except for when your tab panel itself contains another tab list).</p>
+            <p>Using a descriptive tab text is advised, the component falls back to a numberered list, if no description is provided.</p>
+          </section>
+          <section tab-description="Advanced usage">
+            <p>If your layout requires a vertically oriented navigation area, add the <code>menu-orientation="vertical"</code>-attribute to your component. The tab buttons will be displayed in a stacked order and the keyboard navigation is adjusted accordingly.</p>
+            <p>Don't forget to add headings to your tab panel. This component offers two ways to add headings (that work with site and cross-site navigation):</p>
+            <ul>
+              <li>Simply put a heading element inside your tab panel. The document's order is unchanged by the tab list component. If you want your headings to be reachable by links, just add an <code>id</code>-attribute.</li>
+              <li>If the component's tab buttons should be your headings, add the <code>heading-level="3"</code>-attribute to the component itself. The number specifies the requested heading level (<code>h3</code> in this case).</li>
+            </ul>
+          </section>
+          <section tab-description="Customization">
+            <p>Customization is easily done. Aside from bare minimum regarding the vertical tab button design, there really are no predesigned elements with the tab listing. Just keep in mind that the navigation area is structured as follows: <code>ul>li>button</code>. The tab panels are hidden on <code>[aria-selected="true"]</code> by shrinking the container down and apply <code>visibility: hidden</code>.</p>
+            <p>To style the currently active tab button, simply target <code>button.active</code> inside the component's <code>nav</code>-element. The button receives the <code>button</code>-class when its associated tab panel is currently shown.</p>
+          </section>
+        </lfp-tablist>
+      </div>
+    </section>
 
-    <h2>Progress bar component</h2>
-    <div class="demo-area" description="This is what progress looks like!">
-      <lfp-progressbar id="progressbar-demo" progress-min="0" progress-max="12" progress-now="0" text-label="${rel} %" show-value="true"></lfp-progressbar>
-      <script>
-        // DEBUGGING
-        // document.addEventListener('DOMContentLoaded', _ => {
-        //   let val = 1;
-        //   setInterval(() => {
-        //     LFPProgressbar.update('#progressbar-demo', val * 1.12);
-        //     val = val === 10 ? 0 : val + 1;
-        //   }, 1000);
-        // });
-      </script>
-    </div>
+    <section>
+      <h2 id="progressbar-component">Progressbar component</h2>
+      <div class="demo-area" description="This is what progress looks like!">
+        <lfp-progressbar id="progressbar-demo" progress-min="0" progress-max="12" progress-now="0" text-label="${rel} %" show-value="true"></lfp-progressbar>
+        <script>
+          // DEBUGGING
+          // document.addEventListener('DOMContentLoaded', _ => {
+          //   let val = 1;
+          //   setInterval(() => {
+          //     LFPProgressbar.update('#progressbar-demo', val * 1.12);
+          //     val = val === 10 ? 0 : val + 1;
+          //   }, 1000);
+          // });
+        </script>
+      </div>
+    </section>
 
-    <lfp-h link-symbol="§" symbol-hidden style="margin-block-end: -0.875rem;">
-      <h2>The heading component</h2>
-    </lfp-h>
-    <p>The heading above is wrapped inside a <code>&lt;lfp-h&gt;&lt;/lfp-h&gt;</code>-element. There is virtually no difference to a normally placed heading. The custom web component merely adds a link based on the headings text content. The component checks for any existing id on the passed heading element and creates its own it nothing is found.</p>
-    <p>Also, notice that the heading's block end margin does not behave as usual when followed by a paragraph or similar elements, because the heading is wrapped inside an element. Please, just keep this in mind when using <code>lfp-h</code> in your design system. (The above component uses inline-styles to mitigate that and keep an consistent line with all the other headings.)</p>
-    <p>Customize your heading by adding one, several, or all of the following attributes to the custom component:</p>
-    <ul>
-      <li><code>link-symbol</code>: Give it a value like "§" or "+". This prefixes the heading element. Omit the value (just add the attribute) for the default "#".</li>
-      <li><code>symbol-hidden</code>: Add this attribute to the component to only show the prefix you added with <code>link-symbol</code> only on when hovering over the headidng. Has no effect if <code>link-symbol</code> is not present.</li>
-      <li><code>link-all</code>: By default only the prefixed part (if added) contains a link to the heading. Add this attribute to turn the entire heading into an anchor element. Keep in mind that you will either need this attribute or a <code>link-symbol</code> for the component to generate an anchor element.</li>
-    </ul>
-    <p>While this element is quite opiniated in its design approach. Customizing it to your heart's content is quite simple, too. Any style that is applied out of the box can easily be overridden by applying custom styles to a higher order <code>@layer</code> (as with all web components offered here).</p>
+    <section>
+      <lfp-h link-symbol="§" symbol-hidden style="margin-block-end: -0.875rem;">
+        <h2 id="heading-component">The heading component</h2>
+      </lfp-h>
+      <p>The heading above is wrapped inside a <code>&lt;lfp-h&gt;&lt;/lfp-h&gt;</code>-element. There is virtually no difference to a normally placed heading. The custom web component merely adds a link based on the headings text content. The component checks for any existing id on the passed heading element and creates its own it nothing is found.</p>
+      <p>Also, notice that the heading's block end margin does not behave as usual when followed by a paragraph or similar elements, because the heading is wrapped inside an element. Please, just keep this in mind when using <code>lfp-h</code> in your design system. (The above component uses inline-styles to mitigate that and keep an consistent line with all the other headings.)</p>
+      <p>Customize your heading by adding one, several, or all of the following attributes to the custom component:</p>
+      <ul>
+        <li><code>link-symbol</code>: Give it a value like "§" or "+". This prefixes the heading element. Omit the value (just add the attribute) for the default "#".</li>
+        <li><code>symbol-hidden</code>: Add this attribute to the component to only show the prefix you added with <code>link-symbol</code> only on when hovering over the headidng. Has no effect if <code>link-symbol</code> is not present.</li>
+        <li><code>link-all</code>: By default only the prefixed part (if added) contains a link to the heading. Add this attribute to turn the entire heading into an anchor element. Keep in mind that you will either need this attribute or a <code>link-symbol</code> for the component to generate an anchor element.</li>
+      </ul>
+      <p>While this element is quite opiniated in its design approach. Customizing it to your heart's content is quite simple, too. Any style that is applied out of the box can easily be overridden by applying custom styles to a higher order <code>@layer</code> (as with all web components offered here).</p>
+    </section>
 
-    <h2>Number input component</h2>
-    <div class="demo-area" description="Try the number input here!">
-      <lfp-numberinput>
-        <label for="number-input-demo">Number input demo:</label>
-        <input type="number" min="0" max="100" value="50" id="number-input-demo" name="number-input-demo">
-      </lfp-numberinput>
-    </div>
+    <section>
+      <h2 id="number-input-component">Number input component</h2>
+      <div class="demo-area" description="Try the number input here!">
+        <lfp-numberinput>
+          <label for="number-input-demo">Number input demo:</label>
+          <input type="number" min="0" max="100" value="50" id="number-input-demo" name="number-input-demo">
+        </lfp-numberinput>
+      </div>
+    </section>
+
+    <section>
+      <h2 id="nixie-tube-component">Nixie tube component</h2>
+      <div class="demo-area" description="Nixie tube clock">
+        <div id="clock" style="display: flex;">
+          <div id="hour">
+            <lfp-nixie-tube active-digit="1" preserve-stack></lfp-nixie-tube>
+            <lfp-nixie-tube active-digit="3" preserve-stack></lfp-nixie-tube>
+          </div>
+          <div id="minute">
+            <lfp-nixie-tube active-digit="0" preserve-stack></lfp-nixie-tube>
+            <lfp-nixie-tube active-digit="8" preserve-stack></lfp-nixie-tube>
+          </div>
+          <div id="second">
+            <lfp-nixie-tube active-digit="9" preserve-stack></lfp-nixie-tube>
+            <lfp-nixie-tube active-digit="5" preserve-stack></lfp-nixie-tube>
+          </div>
+        </div>
+        <style>
+          #clock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Advent Pro";
+            font-size: 4rem;
+            > div:not(:last-child)::after {
+              content: ":";
+              margin-inline-end: 0.875rem;
+              opacity: 0.5;
+            }
+          }
+        </style>
+        <script defer>
+          // DEBUGGING
+          const $clock = document.querySelector('#clock');
+          const $digits = new Set();
+          ['hour', 'minute', 'second'].forEach(cat => {
+            $digits.add($clock.querySelector(`#clock #${cat} > :nth-child(1)`));
+            $digits.add($clock.querySelector(`#clock #${cat} > :nth-child(2)`));
+          });
+          const setTime = () => {
+            let i = 0;
+            let time = new Date().toLocaleTimeString();
+            let timeArray = time.split('').filter(d => d !== ':');
+            $digits.forEach(digit => {
+              digit.setAttribute('active-digit', timeArray[i]);
+              i++;
+            });
+      
+            $clock.dateTime = time;
+          };
+          setTime();
+          setInterval(setTime, 1000);
+        </script>
+      </div>
+      <p>It's not about the clock, that's merely a demonstrator. It's more about the specific clock design with Nixie tubes. These Nixies are driven by a web component, every digit is its own component. The clock merely updates the component's attributes every once in a while and that's it.</p>
+      <p>This demo uses <a href="https://fonts.google.com/specimen/Advent+Pro">Advent Pro from Google Fonts</a> because it supports variable font weights. The default font weight is set to 300 which has not necessarily an impact on your font face because quite a few monospaced fonts do not support lighter font weights. But the Nixie Tube component uses a normal 400 font weight for digits that are active (and "glowing"); by transitioning between the different weights there is the impression that the wire is starting to glow. Be aware that this effect might not work if you use a font that is not capable of displaying lighter font weights.</p>
+      <h3>Customization</h3>
+      <dl>
+        <dt>Color</dt>
+        <dd>
+          <p>By default, the currently active digit is lighting up in bright red, but that can be changed anytime in CSS with <code>lfp-nixie-tube > div.selected { color: ...; }</code> on any layer that is ordered above the component's default design.</p>
+        <p>The component's default color is currently set to <code>#000</code> but can be changed with <code>lfp-nixie-tube { --_font-clr: &lt;color&gt;; }</code>. Just keep in mind that it is advised that you use fully opaque colors.</p>
+        <p><b>Caution</b>: The <code>color(&lt;color&gt; from xyz x y z / a);</code> syntax used in this component does currently not support color inference from <code>currentcolor</code>, <code>initial</code> and <code>inherit</code>.</p>
+      </dd>
+        <dt>Appearance</dt>
+        <dd><p>By default the currently active digit is moved to the top most layer of its "stack of digits" for better readablity. If you'd prefer to preserve the "physical" order of the digits from "0" in the back all the way to "9" in the front, add <code>preserve-stack</code> as an attribute to <code>lfp-nixie-tube</code>.</p></dd>
+        <dt>Behavior</dt>
+        <dd>
+          <p>To show a digit on the lfp-nixie-tube add the <code>active-digit</code> attribute to the component with a value of a single-digit integer, use either a string or an integer number. Make sure that your argument only consists of a single digit (be careful with potential zero-padding).</p>
+          <p>For repeated changes (for example a clock that is ticking every second or minute) simply update the attribute with JavaScript when applicable, the component handles the rest.</p>
+          <p>To identify multiple Nixie Tubes (again, like with a clock) add an <code>identifier</code> tag and you're good to go.</p>
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>General info</h2>
+      <h3>Usage</h3>
+      <p>All web components can work for themselves and do not have any dependencies, neither for development or building nor for production.</p>
+      <h3>JS</h3>
+      <p>Simply link to the JavaScript file or include it with your source code and import the necessary classes to instantiate the components.</p>
+      <h3>CSS</h3>
+      <p>The CSS is mostly simple and based on selecting the component by its tag rather than by class or identifier. This has the advantage for you to simply override the web component by adding your own classes and/or identifiers.</p>
+      <p>Speaking of styling: have it even simpler and use CSS layers. All components are placed on their own layer `lfp` which you can place anywhere you wish on your layer hierarchy. This is a possible configuration:</p>
+      <pre><code>@layer reset, lfp, base, layout, components;</code></pre>
+      <p>This way you can ensure to not let shine through any of the component's base  style through your design system.</p>
+    </section>
   </main>
 
   <footer>
-    <h2>Acknowledgements:</h2>
+    <h2>Acknowledgements</h2>
     <ul>
       <li>The colors used to create this site are taken from the gorgeous color palette of the <a href="https://tailwindcss.com/docs/customizing-colors#default-color-palette">Tailwind project</a>. I don't usually use their tools but I must say, they got some tasty color palettes.</li>
     </ul>

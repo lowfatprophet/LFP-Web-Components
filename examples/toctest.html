@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToC Test</title>
+
+  <link rel="stylesheet" href="../toc/toc.css">
+  <script src="../toc/toc.js" defer></script>
+
+  <style>
+    @layer reset, lfp, base, layout, components;
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-size: 1.125rem;
+      line-height: 1.5;
+    }
+
+    .wrapper {
+      display: grid;
+      grid-template-areas: "aside main";
+      gap: 1rem;
+    }
+
+    aside {
+      grid-area: aside;
+      align-self: start;
+      position: sticky;
+      top: 0.5rem;
+    }
+
+    main { grid-area: main; }
+
+    p:first-of-type {
+      margin-block-start: 0;
+    }
+
+    @layer components {
+      lfp-toc {
+        --_spacing: 0.5rem;
+        --_accent-light: #d1fae5;
+        --_accent-medium: #6ee7b7;
+        --_accent-dark: #059669;
+
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 1rem;
+
+        & > ul > li {
+          font-weight: 700;
+          
+          & > ul {
+            font-weight: 400;
+            border-inline-start: 1px solid var(--_accent-medium);
+            
+            & > li:has(.current-heading) {
+              /* margin-inline-start: calc(-1 * var(--_spacing)); */
+              padding-inline-start: calc(var(--_spacing) - 2px);
+              border-inline-start: 2px solid var(--_accent-dark);
+              background-color: var(--_accent-light);
+            }
+          }
+        }
+
+        ul {
+          margin: 0;
+          padding: 0;
+          
+          li {
+            list-style-type: none;
+            margin-inline-start: 0;
+
+            ul li {
+              padding-inline-start: var(--_spacing);
+            }
+
+            &::before {
+              content: "";
+              padding: 0;
+            }
+
+            a {
+              color: inherit;
+              text-decoration: none;
+
+              &.current-heading { color: var(--_accent-dark); }
+            }
+          }
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ToC Test</h1>
+  </header>
+  <div class="wrapper">
+    <aside>
+      <lfp-toc min-level="5" max-level="2" set-id mark-current no-numeration></lfp-toc>
+    </aside>
+    <main>
+      <p>This is a prelude with a bit of text that ultimately leads to the main article. Perhaps you can imagine a kind of header section for the site as a whole or the article below; maybe with an image or something like that.</p>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore earum minima culpa eius, autem esse distinctio quaerat illo natus quibusdam quod accusantium placeat eligendi odio est dicta maiores laborum tenetur ullam doloribus! Dolorem accusamus quidem excepturi repellat quos animi distinctio quibusdam alias, vitae itaque facilis perspiciatis expedita voluptatem ab laudantium.</p>
+      <h2>Test 1</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti sed voluptatibus labore consectetur corrupti excepturi dolores ipsam reprehenderit nesciunt rem est commodi asperiores tempore quis repellendus assumenda odio nihil, illo placeat quae laudantium eos! Quidem consequuntur suscipit possimus cumque exercitationem magni corrupti, totam optio laboriosam, consequatur temporibus ea ipsum laborum? Ea, id excepturi! Officia, reiciendis assumenda non possimus dignissimos asperiores, dolorum maxime fuga ex, inventore rem sapiente nulla. Rerum ad nihil sunt similique ipsam doloribus fugit quas quasi tempore corporis, laudantium cumque! Aliquid eius dolore sed autem, asperiores esse quo doloribus iure. Inventore iure repellat atque, similique reiciendis ad nemo.</p>
+      <h3>Test 1.1</h3>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit temporibus rerum vero, corrupti quam nesciunt ullam doloremque reiciendis magni dignissimos voluptates maxime hic architecto eos nihil dolore ipsum. Atque ipsam doloremque amet cum ab, consectetur a, blanditiis praesentium dolorem quod iusto? Eligendi voluptatibus ab soluta molestiae libero ipsam ducimus fugit, optio et deserunt corporis error perferendis sapiente perspiciatis quisquam dolores consequatur earum, iusto ratione quod provident consequuntur magni minima? Ea in, animi omnis quis ut tempora eveniet eaque aliquid doloribus vel deserunt dignissimos laudantium sunt ducimus impedit qui iusto porro officia facere, doloremque, veniam repudiandae nam. Ipsam nisi error voluptatem.</p>
+      <h3>Test 1.2</h3>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia soluta expedita velit culpa animi odit nihil. Doloribus, voluptatum corrupti sunt sequi mollitia repellendus qui ipsam deserunt accusantium. Illum aliquam pariatur explicabo, magni debitis similique cupiditate id suscipit nesciunt, repellendus perspiciatis quis ullam obcaecati quidem numquam illo sint, ipsam porro laboriosam fugiat expedita nostrum. Nihil doloremque reprehenderit quod aspernatur? Veniam enim distinctio corporis iure vero repudiandae nemo, adipisci eveniet explicabo dolorum magni, ullam neque consequuntur sapiente sunt ea velit amet illum labore quis, illo placeat! Accusantium porro qui at totam sit reprehenderit, saepe autem explicabo voluptatum blanditiis quia. Accusamus, sed totam?</p>
+      <h2>Test 2</h2>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit ex repudiandae tempora natus repellendus, modi sit accusamus ullam qui corporis placeat hic, fugit culpa, vel sunt reiciendis ipsam repellat! Repellat, odit error? Sint et, ad aut omnis, aliquid natus rem nulla eum molestias atque dolor? Vel consequuntur voluptatum repudiandae deserunt!</p>
+      <h2>Test 3</h2>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores laudantium velit fugit reprehenderit commodi, harum accusamus iste voluptate culpa ab? Debitis odit expedita qui sit mollitia libero et obcaecati illum? Ad accusantium rem ea, itaque ex recusandae est? Tempora expedita, dignissimos nostrum vel tempore doloribus commodi possimus adipisci totam dicta.</p>
+      <h3>Test 3.1</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita officiis officia ratione nostrum commodi? Odio tempora rerum nobis quam quis. Facere ab accusantium natus rerum dolorum a eaque quisquam repudiandae eveniet, fuga molestiae non dolor voluptatibus impedit laboriosam amet laudantium soluta, ratione vel aperiam architecto doloremque sunt unde. Perferendis, laborum?</p>
+      <h4>Test 3.1.1</h4>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis sed quod perferendis minus rerum, est vero aliquam, optio quidem fuga asperiores itaque iure nihil, sunt incidunt quibusdam distinctio cumque doloribus iste officiis illum voluptate eligendi ratione? In non quod nihil optio atque error perferendis ratione, quisquam inventore mollitia officiis corrupti at, delectus veritatis autem placeat? Cum odit necessitatibus fugiat, temporibus fuga placeat ut sapiente voluptates expedita vero, odio deleniti similique maiores ratione sed velit pariatur. Distinctio vero, esse hic eaque velit consequuntur, error magnam assumenda doloribus deserunt corrupti dolorem. Inventore dolorem esse vitae dolores libero fugiat, harum odio eligendi nam?</p>
+      <h4>Test 3.1.2</h4>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus rerum ab eius, incidunt reprehenderit dolor voluptatem ratione porro ipsa, quas vel necessitatibus autem velit, pariatur error atque unde asperiores voluptate laboriosam illum? Commodi animi molestiae rerum molestias veniam, corrupti obcaecati esse dolorum assumenda velit alias. Itaque culpa praesentium illo sequi?</p>
+      <h3>Test 3.2</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta nam fugit exercitationem accusantium nulla maiores repellat necessitatibus nostrum a, fuga, ipsum totam quo? Voluptatibus, recusandae. Libero nostrum impedit qui quidem. Minima cupiditate ad nihil dicta illum magnam cum ducimus perferendis reiciendis, quas fuga, a labore harum minus non unde dolorum, ipsa doloremque molestias quis accusamus? Placeat nam dolorem officia adipisci enim modi aspernatur expedita nemo inventore autem, rerum quam architecto eligendi voluptate illo est vel ullam ut ea accusamus deleniti. Perferendis, similique quo officiis necessitatibus suscipit incidunt aliquid! Ab dolores iste porro harum facilis rem iure reprehenderit commodi corporis nulla?</p>
+    </main>
+  </div>
+</body>
+</html>

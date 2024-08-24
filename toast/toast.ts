@@ -6,9 +6,9 @@ interface LFPToastEvent extends CustomEvent {
   },
 }
 
-interface GlobalEventHandlersEventMap {
-  'lfp:toast': LFPToastEvent,
-}
+// interface GlobalEventHandlersEventMap {
+//   'lfp:toast': LFPToastEvent,
+// }
 
 class LFPToast extends HTMLElement {
   ul = document.createElement('ul');

@@ -1,7 +1,7 @@
 // extending the events mapping interface to include the custom updating event
-interface GlobalEventHandlersEventMap {
-  'lfp:progressbar-update': CustomEvent<{ value: number, id: string }>,
-}
+// interface GlobalEventHandlersEventMap {
+//   'lfp:progressbar-update': CustomEvent<{ value: number, id: string }>,
+// }
 
 /**
  * A W3 compliant progress bar web component.
@@ -113,7 +113,7 @@ class LFPProgressbar extends HTMLElement {
 
   connectedCallback() {
     document.addEventListener('lfp:progressbar-update', e => {
-      if (e.detail.id.replace('#', '') === this.id) this.setValue(e.detail.value);
+      if ((e as CustomEvent).detail.id.replace('#', '') === this.id) this.setValue((e as CustomEvent).detail.value);
     });
   }
 
