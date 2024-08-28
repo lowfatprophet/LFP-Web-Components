@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToC Test</title>
+
+  <script src="../lib/tablist.js" type="module"></script>
+
+  <style>
+    @layer reset, lfp, base, layout, components;
+
+    :root {
+      color-scheme: light dark;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    .wrapper {
+      display: grid;
+      grid-template-areas: "main aside";
+      gap: 1rem;
+    }
+
+    aside {
+      grid-area: aside;
+      align-self: start;
+      position: sticky;
+      top: 0.5rem;
+      max-height: calc(100dvh - 0.5rem);
+      overflow: auto;
+    }
+
+    main { grid-area: main; }
+
+    p:first-of-type {
+      margin-block-start: 0;
+    }
+
+    @layer components {
+      lfp-tablist {
+        --_clr-bg: #323232;
+        --clr-fg: #efefef;
+
+        padding: 0.5rem;
+        border: 1px solid darkgray;
+        border-radius: 0.25rem;
+        background-color: var(--_clr-bg);
+        color: var(--_clr-fg);
+        overflow: hidden;
+
+        nav {
+          height: 50px;
+        }
+
+        section {
+          position: relative;
+          
+          .content {
+            height: calc(95dvh - 50px);
+            padding-block: 20px;
+            overflow: auto;
+          }
+
+          &::before, &::after {
+            content: "";
+            position: absolute;
+          }
+
+          &::before {
+            inset: 0 0 calc(100% - 35px);
+            background-image: linear-gradient(to bottom, var(--_clr-bg), transparent);
+          }
+
+          &::after {
+            inset: calc(100% - 35px) 0 0;
+            background-image: linear-gradient(to bottom, transparent, var(--_clr-bg));
+          }
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tablist Test</h1>
+  </header>
+  <div class="wrapper">
+    <main>
+      <lfp-tablist keep-size>
+        <section tab-description="Tab 1">
+          <div class="content">
+            <p>This is tab 1.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio veritatis nihil magnam, voluptate culpa commodi facilis inventore rem in ex, nisi itaque illo cupiditate quidem expedita molestias dolores, quas ut quibusdam voluptatum libero sunt ad fugit nesciunt? Provident, ut voluptas quae doloremque, nulla natus aspernatur explicabo earum aliquid, nihil omnis repudiandae officia praesentium excepturi ipsum culpa maiores delectus iure ad odit dolore soluta? Praesentium debitis aliquam architecto at maxime molestias ipsam dolor? Adipisci, consectetur architecto quae fugiat, molestias quis vero illo quasi neque mollitia odio voluptatem culpa deleniti blanditiis incidunt ratione nemo optio. Sed fugit et reprehenderit omnis beatae molestias.</p>
+            <p>Eos fugit recusandae dolore deserunt assumenda, aliquid eius rem! Recusandae, officiis aut neque quos illo repellat, molestiae harum, fugit temporibus expedita accusamus facere laboriosam ducimus? Reiciendis maxime aperiam perferendis, facilis assumenda accusamus consectetur repudiandae dolore pariatur veritatis nemo quisquam hic rem minus, eveniet laboriosam eum porro quia illo fugit laborum laudantium atque? Ullam quibusdam beatae ad, laborum, commodi unde eveniet nostrum harum dolor sed excepturi earum facilis, culpa hic provident tenetur odit quod inventore modi delectus quos sit necessitatibus illo. Explicabo obcaecati sunt voluptatum, laudantium amet, commodi tempora inventore temporibus cupiditate vitae eaque ullam, fugit ipsam unde. Ducimus, obcaecati laborum.</p>
+          </div>
+        </section>
+        <section tab-description="Tab 2">
+          <div class="content">
+            <p>And here we have tab 2. Just to have a bit of difference between the two.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa inventore eos dolores maxime amet natus et ipsum, nam earum nulla iusto reiciendis delectus! Quos aperiam nesciunt tempore incidunt modi commodi accusantium iure, eos vel quia excepturi laudantium, distinctio reiciendis asperiores, animi hic recusandae ducimus! Dicta at quod, alias tempora voluptate necessitatibus ullam eaque fugiat doloribus officiis atque iste unde minima, itaque aperiam aliquid eum natus blanditiis, perspiciatis reprehenderit. Quidem delectus itaque ipsa mollitia aliquid amet consequuntur ut excepturi, commodi reprehenderit. Neque sit dolorum odit cupiditate illo excepturi quo quae consequuntur! In dolorum saepe veniam. Placeat reiciendis modi magni temporibus facilis.</p>
+            <p>Eos fugit recusandae dolore deserunt assumenda, aliquid eius rem! Recusandae, officiis aut neque quos illo repellat, molestiae harum, fugit temporibus expedita accusamus facere laboriosam ducimus? Reiciendis maxime aperiam perferendis, facilis assumenda accusamus consectetur repudiandae dolore pariatur veritatis nemo quisquam hic rem minus, eveniet laboriosam eum porro quia illo fugit laborum laudantium atque? Ullam quibusdam beatae ad, laborum, commodi unde eveniet nostrum harum dolor sed excepturi earum facilis, culpa hic provident tenetur odit quod inventore modi delectus quos sit necessitatibus illo. Explicabo obcaecati sunt voluptatum, laudantium amet, commodi tempora inventore temporibus cupiditate vitae eaque ullam, fugit ipsam unde. Ducimus, obcaecati laborum.</p>
+          </div>
+        </section>
+      </lfp-tablist>
+    </main>
+  </div>
+</body>
+</html>

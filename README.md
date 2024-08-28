@@ -115,11 +115,11 @@ Simply used with `<lfp-toast></lfp-toast>`. Adjust the duration for which the to
 
 Trigger a toast by emitting a new toast with `LFPToast.emit(description, title?, dismissable=false)`. Alternatively, dispatch your own event: LFPToast listens to `lfp:toast` and requires your event to feature the following `detail` object:
 
-```javascript
+```ts
 detail: {
-  title: string,
+  title: string?,
   description: string,
-  dismissable: boolean
+  dismissable: boolean?
 }
 ```
 

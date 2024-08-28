@@ -1,15 +1,18 @@
 {
   "name": "@lowfatprophet/lfp-wc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A comprehensive collection of web components",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lowfatprophet/LFP-Web-Components.git"
   },
   "keywords": [
     "webcomponent",
+    "web-component",
+    "webcomponents",
+    "web-components",
     "vanillajs",
+    "vanilla-js",
     "frontend"
   ],
   "author": "lowfatprophet <lowfatprophet@googlemail.com> (https://lowfatprophet.codeberg.page)",
@@ -17,5 +20,33 @@
   "bugs": {
     "url": "https://github.com/lowfatprophet/LFP-Web-Components/issues"
   },
-  "homepage": "https://github.com/lowfatprophet/LFP-Web-Components#readme"
+  "homepage": "https://github.com/lowfatprophet/LFP-Web-Components#readme",
+  "scripts": {
+    "watch": "tsc watch && npx cem analyze",
+    "build": "rm -rf .parcel-cache && npx cem analyze && parcel build src/*.ts --dist-dir dist --no-scope-hoist --no-content-hash --no-optimize",
+    "test1": "esbuild src/*.ts --outdir=dist",
+    "test": "node esbuild.config.mjs",
+    "babel": "babel src -d lib --extensions .ts"
+  },
+  "type": "module",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "target": {
+    "default": {
+      "isLibrary": true,
+      "sourceMap": false,
+      "context": "browser",
+      "outputFormat": "esmodule",
+      "includeNodeModules": false
+    }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.8",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@custom-elements-manifest/analyzer": "^0.10.3",
+    "babel-plugin-styled-components": "^2.1.4",
+    "styled-components": "^6.1.12",
+    "typescript": "^5.5.4"
+  }
 }

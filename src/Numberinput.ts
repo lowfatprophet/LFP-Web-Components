@@ -1,25 +1,38 @@
 import { addStylesheet } from "./utilities.js";
 
-const SHEET = `@layer lfp {
-  lfp-numberinput {
-    input {
-      text-align: right;
-      
-      &[type="number"] { appearance: textfield; }
-
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-    }
-  }
-}`;
-
+/**
+ * Creates a simple numerical input widget that can be used inside of tool boxes
+ * or other UI controls.
+ * 
+ * @example
+ * ```html
+ * <lfp-numberinput>
+ *   <label for="number-input">Enter number here:</label>
+ *   <input type="number" id="number-input" value="42">
+ * </lfp-numberinput>
+ * ```
+ */
 export default class LFPNumberInput extends HTMLElement {
-  input: HTMLInputElement | null;
-  decrementButton: HTMLButtonElement | undefined;
-  incrementButton: HTMLButtonElement | undefined;
+  /**
+   * @internal
+   * @prop {HTMLInputElement|null} input - The input element, that is mandatory
+   * to be inside the web component. If `null`, the input element was not found
+   * inside the web component and the `constructor` exits prematurely, not
+   * instantiating the component. No errors are emitted.
+   */
+  private input: HTMLInputElement | null;
+  /**
+   * @internal
+   * @prop {HTMLButtonElement|undefined} decrementButton - The button to 
+   * decrement the counter. Is `undefined` in case `this.input` is not found.
+   */
+  private decrementButton: HTMLButtonElement | undefined;
+  /**
+   * @internal
+   * @prop {HTMLButtonElement|undefined} decrementButton - The button to 
+   * decrement the counter. Is `undefined` in case `this.input` is not found.
+   */
+  private incrementButton: HTMLButtonElement | undefined;
   constructor() {
     super();
 
@@ -27,7 +40,19 @@ export default class LFPNumberInput extends HTMLElement {
 
     if (!this.input) return;
 
-    addStylesheet(SHEET);
+    addStylesheet(/* css */ `lfp-numberinput {
+      input {
+        text-align: right;
+        
+        &[type="number"] { appearance: textfield; }
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }`);
 
     this.decrementButton = this.#createButton('-');
     this.incrementButton = this.#createButton('+');

@@ -1,52 +1,66 @@
-import { addStylesheet } from "./utilities.js";
-
-const SHEET = `@layer lfp {
-  lfp-tablist {
-    display: block;
-    
-    [menu-orientation="vertical"] nav ul {
-      flex-direction: column;
-    }
-    
-    nav {
-      ul {
-        display: flex;
-        align-items: start;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-
-        li {
-          margin: 0;
-          padding: 0;
-        }
-      }
-    }
-
-    [role="tabpanel"] {
-      height: calc-size(auto);
-      overflow: hidden;
-      transition: height 0.3s;
-
-      &:not([aria-selected="true"]) {
-        height: 0;
-        visibility: hidden;
-      }
-    }
-  }
-}`;
+import { addStylesheet, isValidAttr } from "./utilities.js";
 
 /**
- * A W3 compliant tab list web component.
- * https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
+ * A concise component enabling a W3 compliant tab list with sensible fallbacks
+ * and easy styling.
+ * 
+ * @summary A W3 compliant tab list web component, https://www.w3.org/WAI/ARIA/apg/patterns/tabs/.
+ * @attr {string} menu-orientation - Enter either 'horizontal' or 'vertical' for
+ * the navigation's orientation; register tabs are either lined up or stacked.
+ * Defaults to 'horizontal' if no value is provided for `menu-orientation`.
+ * @attr {number} heading-level - Specify this value if you want your tab descriptions to
+ * be headings. Provide a number between one and six to replace the standard
+ * button text of the tab panel's register with a heading of the given level.
+ * 
+ * @example
+ * ```html
+ * <lfp-tablist menu-orientation="vertical" heading-level="3">
+ *   <section tab-description="tab-1">...</section>
+ *   <section tab-description="tab-2">...</section>
+ *   <section tab-description="tab-3">...</section>
+ * </lfp-tablist>
+ * ```
  */
 export default class LFPTablist extends HTMLElement {
+  /**
+   * @internal
+   * @prop {HTMLElement} tabMenu
+   * @default document.createElement('nav')
+   */
   private readonly tabMenu = document.createElement('nav');
+  /**
+   * @internal
+   * @prop {NodeListof<Element>} panels
+   */
   private readonly panels!: NodeListOf<Element>;
-  private readonly orientation: 'horizontal' | 'vertical' | string;
+  /**
+   * @internal
+   * @prop {string} orientation
+   */
+  private readonly orientation: 'horizontal' | 'vertical' | {};
+  /**
+   * @internal
+   * @prop {string} backKey
+   * @default 'ArrowLeft'
+   */
   private readonly backKey: 'ArrowLeft' | 'ArrowUp' = 'ArrowLeft';
+  /**
+   * @internal
+   * @prop {string} forwardKey
+   * @default 'ArrowRight'
+   */
   private readonly forwardKey: 'ArrowRight' | 'ArrowDown' = 'ArrowRight';
+  /**
+   * @internal
+   * @prop {HTMLButtonElement[]} buttons
+   * @default []
+   */
   private buttons: HTMLButtonElement[] = [];
+  /**
+   * @internal
+   * @prop {number} selected
+   * @default 0
+   */
   private selected = 0;
   constructor() {
     super();
@@ -73,11 +87,51 @@ export default class LFPTablist extends HTMLElement {
     if (this.panels.length === 0) return;
     this.panels.forEach(el => {
       this.#setAttributes(el, new Map([['role', 'tabpanel'], ['aria-selected', 'false']]));
+      if (isValidAttr('keep-size', this, true)) el.classList.add('keep-size');
     });
 
     this.prepend(this.tabMenu);
 
-    addStylesheet(SHEET);
+    addStylesheet(/* css */ `lfp-tablist {
+      display: block;
+      display: grid;
+      grid-template-areas: "nav" "content";
+
+      [menu-orientation="vertical"] nav ul { flex-direction: column; }
+      
+      nav {
+        grid-area: nav;
+
+        ul {
+          display: flex;
+          align-items: start;
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+
+          li {
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
+  
+      [role="tabpanel"] {
+        height: calc-size(auto);
+        overflow: hidden;
+        transition: height 0.3s;
+
+        &.keep-size {
+          grid-area: content;
+        }
+  
+        &:not([aria-selected="true"]) {
+          visibility: hidden;
+
+          &:not(.keep-size) { height: 0; }
+        }
+      }
+    }`);
 
     // create tab nav menu
     let ul = document.createElement('ul');

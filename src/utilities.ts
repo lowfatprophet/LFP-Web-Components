@@ -1,3 +1,5 @@
+export const CSS_LAYER = 'lfp';
+
 /**
  * Class representing a storage interface to save items to window.localStorage
  * or similar structures and retrieve it from there.
@@ -84,12 +86,59 @@ export class StorageController {
 }
 
 /**
+ * Wraps the given string of CSS settings with the 
+ * @param {string} styles String of valid CSS settings.
+ * @param {string} [layer=CSS_LAYER] The CSS layer the styles should be placed on.
+ * @returns String of valid CSS settings wrapped with the approbriate layer.
+ */
+export function addLayer(styles: string, layer: string = CSS_LAYER): string {
+  return `@layer ${layer} {${styles}}`;
+}
+
+/**
  * Adds the given text, which must comply to CSS standards, as a `CSSStyleSheet`
  * object to the documents list of adopted stylesheets.
- * @param {string} text the given CSS styles (must comply to CSS standards!)
+ * @param {string} stylestring the given CSS styles (must comply to CSS standards!)
  */
-export function addStylesheet(text: string) {
+export function addStylesheet(stylestring: string) {
   const sheet = new CSSStyleSheet();
-  sheet.replaceSync(text)
+  sheet.replaceSync(addLayer(stylestring));
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+}
+
+export function css(temps: TemplateStringsArray, ...args: string[]) {
+  const sheet = new CSSStyleSheet();
+  let text = temps.reduce((pv, cv, i) => {
+    return i !== temps.length - 1 ? pv + cv + args[i] : pv;
+  }, '');
+  console.log(text);
+  sheet.replaceSync(addLayer(
+    temps.reduce((pv, cv, i) => {
+      return i !== temps.length - 1 ? pv + cv + args[i] : pv;
+    }, '')
+  ));
+  document.adoptedStyleSheets.push(sheet);
+}
+
+/**
+ * `element.getAttribute()` returns the factual value the element's attribute
+ * actually has. This means that it returns a truish empty string if the
+ * attribute is present but there is no value given. If you want to verify that
+ * there is a value (because your component depends on it) you have to actively
+ * check for this, too. This function offers a short-hand for this process.
+ * @param {string} attr The attribute's name.
+ * @param {HTMLElement} target The target element from which the attribute should
+ * be taken. Use `this` in class context of web components.
+ * @param {boolean} bool Flag if you expect the attribute to function as a
+ * boolean indicator, i.e., the attribute does not need a value and this
+ * function is only checking if the attribute is present on the element at all
+ * @returns {boolean}
+ */
+export function isValidAttr(attr: string, target: HTMLElement, bool: boolean = false): boolean {
+  let val = target.getAttribute(attr);
+  if (bool) {
+    return val !== null;
+  } else {
+    return val !== '' || val !== null;
+  }
 }

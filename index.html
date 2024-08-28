@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="src/styles/common.css">
 
   <script type="module">
-    import './dist/disclosure.js';
-    import './dist/heading.js';
-    import './dist/nixie.js';
-    import './dist/numberinput.js';
-    import './dist/progressbar.js';
-    import './dist/scrollmeter.js';
-    import './dist/skeleton.js';
-    import './dist/tablist.js';
-    import LFPToast from './dist/toast.js';
-    import './dist/toc.js';
+    import './lib/disclosure.js';
+    import './lib/heading.js';
+    import './lib/nixie.js';
+    import './lib/numberinput.js';
+    import './lib/progressbar.js';
+    import './lib/scrollmeter.js';
+    import './lib/skeleton.js';
+    import './lib/tablist.js';
+    import LFPToast from './lib/toast.js';
+    import './lib/toc.js';
 
     // Toast component code
     document.querySelector('#toast-form')
@@ -58,9 +58,22 @@
   <header>
     <h1>Web Components</h1>
     <lfp-toc min-level="5" set-id mark-current></lfp-toc>
+
+    <h2>Additional examples</h2>
+    <nav>
+      <ul>
+        <li>
+          <a href="/examples/toctest.html">ToC Test</a>
+        </li>
+        <li>
+          <a href="/examples/tablisttest.html">Tablist Test</a>
+        </li>
+      </ul>
+    </nav>
   </header>
 
   <main>
+    <!-- ToC -->
     <section>
       <h2 id="toc-component">ToC component</h2>
       <p>Yes, the above table of content is made with the custom <code>&lt;lfp-toc&gt;&lt;/lfp-toc&gt;</code> component.</p>
@@ -124,6 +137,7 @@
       <p>Have a look at this <a href="examples/toctest.html">example</a> for a thourough demonstration of the capabilities of <code>&lt;lfp-toc&gt;&lt;lfp-toc&gt;</code>.</p>
     </section>
 
+    <!-- Disclosure -->
     <section>
       <h2 id="disclosure-component">Disclosure component</h2>
       <p>Simply used with <code>&lt;lfp-disclosure&gt;&lt;/lfp-disclosure&gt;</code>. Add the <code>[trigger]</code> and <code>[content]</code> elements inside the component.</p>
@@ -137,11 +151,13 @@
       </div>
     </section>
 
+    <!-- Scrollmeter -->
     <section>
       <h2 id="scrollmeter-component">Scrollmeter component</h2>
       <p>You witness it the whole time visiting this page,</p>
     </section>
 
+    <!-- Toast -->
     <section>
       <h2 id="toast-component">Toast component</h2>
       <p>Simply used with <code>&lt;lfp-toast&gt;&lt;/lfp-toast&gt;</code>. Adjust the duration the toast is visible by adding a <code>close-delay</code>-attribute and specifying the duration in milliseconds. If you want to trigger an animation before the toast gets removed from the DOM, add a <code>animation-delay</code>-attribute and specify the time your animation will take to run. For an animation to run, simply add <code>animation: &lt;animation-name&gt; &lt;animation-duration&gt; &lt;animation-play-state&gt;</code>. Make sure that your animation features the following criteria:</p>
@@ -158,7 +174,7 @@
     dismissable: boolean
   }
 }</pre>
-      <p>Import the class with <code>import LFPToast from 'lfp-wc/toast</code>.</p>
+      <p>Import the class with <code>import LFPToast from 'lfp-wc/toast';</code>.</p>
       <div class="demo-area" description="Type in a message and a title to demo the toast component!">
         <form id="toast-form">
           <input type="text" name="title" id="title-toast-input">
@@ -168,14 +184,15 @@
           <input type="submit" value="Toast!">
         </form>
       </div>
-      <lfp-toast close-delay="2500" animation-delay="1000"></lfp-toast>
+      <lfp-toast close-delay="2500" animation-delay="500"></lfp-toast>
     </section>
     
+    <!-- Tablist -->
     <section>
       <h2 id="tablist-component">Tablist component</h2>
       <p>Simply used with <code>&lt;lfp-tablist&gt;&lt;/lfp-tablist&gt;</code>. Add a <code>tab-description</code>-attribute to each of the tab panels that you place inside of the component. This attribute's content is than placed in the tab navigation menu. Optionally add <code>menu-orientation="vertical"</code> for vertically oriented tab buttons.</p>
       <div class="demo-area" description="Click your way through the tab list component!">
-        <lfp-tablist>
+        <lfp-tablist keep-size>
           <section tab-description="Get started">
             <p>Add the <code>&lt;lfp-tablist&gt;&lt;/lfp-tablist&gt;</code>-component to your site and the content for each of your tab panels inside of it. Just do not forget to add the <code>tab-description</code>-attribute to every panel. The panels can be organised in any way you like, just keep in mind that <code>tab-description</code>-attributes are not allowed to be nested (except for when your tab panel itself contains another tab list).</p>
             <p>Using a descriptive tab text is advised, the component falls back to a numberered list, if no description is provided.</p>
@@ -191,6 +208,7 @@
           <section tab-description="Customization">
             <p>Customization is easily done. Aside from bare minimum regarding the vertical tab button design, there really are no predesigned elements with the tab listing. Just keep in mind that the navigation area is structured as follows: <code>ul>li>button</code>. The tab panels are hidden on <code>[aria-selected="true"]</code> by shrinking the container down and apply <code>visibility: hidden</code>.</p>
             <p>To style the currently active tab button, simply target <code>button.active</code> inside the component's <code>nav</code>-element. The button receives the <code>button</code>-class when its associated tab panel is currently shown.</p>
+            <p>By default, the component's height shrinks and grows depending on the amount of content of the currently active panel. Pass the `keep-size`-attribute to the component so that the component's height does not change if you switch from one panel to the next, mitigating page shifts.</p>
           </section>
         </lfp-tablist>
       </div>

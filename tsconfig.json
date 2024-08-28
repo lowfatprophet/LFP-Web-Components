@@ -1,14 +1,22 @@
 {
-    "include": ["./src/**/*"],
+    "include": ["./src/**/*.ts"],
+    "exclude": ["*.d.ts"],
     "compilerOptions": {
         /* Base options */
         "esModuleInterop": true,
         "skipLibCheck": true,
         "target": "ESNext",
         "verbatimModuleSyntax": true,
-        // "moduleDetection": "force",
+        // "noEmit": true,
+        // "moduleResolution": "nodenext",
+        "moduleDetection": "force",
 
-        "outDir": "dist",
+        "outDir": "lib",
+        // "baseUrl": ".",
+        // "paths": {
+        //     // "*":["../node_modules/"]
+        //     "styled-components": ["node_modules/styled-components/dist/styled-components.js"]
+        // },
 
         "module": "ESNext",
         "lib": [
@@ -18,7 +26,8 @@
             "es2021"
         ],
         "sourceMap": false,
-        "removeComments": true,
+        // so that the library is still documented by JSDoc
+        "removeComments": false,
 
         /* Strictness */
         "strict": true,
@@ -35,6 +44,14 @@
         "noImplicitAny": true,
         "noImplicitOverride": true,
         "noImplicitReturns": true,
-        "exactOptionalPropertyTypes": true
+        "exactOptionalPropertyTypes": true,
+
+        /* Plugins */
+        "plugins": [
+            {
+                "name": "@styled/typescript-styled-plugin",
+                "tags": ["css"]
+            }
+        ]
     }
 }

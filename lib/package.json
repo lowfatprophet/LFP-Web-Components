@@ -1,0 +1,26 @@
+{
+    "name": "@lowfatprophet/lfp-wc",
+    "version": "0.0.1",
+    "description": "A comprehensive collection of web components",
+    "main": "index.js",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lowfatprophet/LFP-Web-Components.git"
+    },
+    "keywords": [
+        "webcomponent",
+        "web-component",
+        "webcomponents",
+        "web-components",
+        "vanillajs",
+        "vanilla-js",
+        "frontend"
+    ],
+    "author": "lowfatprophet <lowfatprophet@googlemail.com> (https://lowfatprophet.codeberg.page)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/lowfatprophet/LFP-Web-Components/issues"
+    },
+    "homepage": "https://github.com/lowfatprophet/LFP-Web-Components#readme"
+}

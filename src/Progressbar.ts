@@ -1,113 +1,58 @@
-// extending the events mapping interface to include the custom updating event
-// interface GlobalEventHandlersEventMap {
-//   'lfp:progressbar-update': CustomEvent<{ value: number, id: string }>,
-// }
-
 import { addStylesheet } from './utilities.js';
 
 /**
- * A W3 compliant progress bar web component.
- * https://w3c.github.io/aria/#progressbar
+ * Creates a simple progressbar, that can be updated with the use of `setValue()`
+ * on the instance, or `update()` as static method on the class.
+ * 
+ * @summary A W3 compliant progress bar web component, https://w3c.github.io/aria/#progressbar.
+ * 
+ * @attr show-value - Specify if the current progress should get a numerical 
+ * representation as well.
+ * @attr progress-min - Set the minimum value for the progress bar.
+ * @attr progress-max - Set the maximum value for the progress bar.
+ * @attr text-label - Set an optional text label for the progressbar. Use
+ * `${rel}` and `${abs}` to display the current relative and absolute progress
+ * value.
  */
-// class LFPProgressbar extends HTMLElement {
-//   showValue: boolean;
-//   notify = false;
-//   min: number;
-//   max: number;
-//   textLabel: string | null;
-//   range = document.createElement('input');
-//   constructor() {
-//     super();
-
-//     this.showValue = !!this.getAttribute('show-value');
-//     this.notify = !!this.getAttribute('aria-notify');
-//     this.min = Number(this.getAttribute('progress-min') ?? this.getAttribute('aria-valuemin'));
-//     this.max = Number(this.getAttribute('progress-max') ?? this.getAttribute('aria-valuemax'));
-//     this.textLabel = this.getAttribute('text-label');
-
-//     if (this.showValue) {
-//       let output = document.createElement('div');
-//       output.setAttribute('role', 'status');
-//       if (this.notify) output.ariaLive = 'polite';
-//     }
-
-//     new Map([
-//       ['aria-valuemin', this.min.toString()],
-//       ['aria-valuemax', this.max.toString()],
-//       ['type', 'range'],
-//       ['role', 'progressbar'],
-//     ]).forEach((val, attr) => this.range.setAttribute(attr, val));
-
-//     // set initial value 
-//     this.#setValue(Number(this.getAttribute('progress-now') ?? 0));
-
-//     this.prepend(this.range);
-//   }
-
-//   connectedCallback() {
-//     document.addEventListener('lfp:progressbar-update', e => {
-//       if (e.detail.id.replace('#', '') === this.id) this.#setValue(e.detail.value);
-//     });
-//   }
-
-//   #setTextLabel(rel: number, abs: number | undefined) {
-//     if (!this.textLabel) return;
-//     let string = this.textLabel;
-//     string = string.replace('${rel}', rel.toString());
-//     if (abs) string = string.replace('${abs}', abs.toString());
-//     this.range.setAttribute('aria-valuetext', string);
-//   }
-
-//   #setValue(value: number, abs = true) {
-//     this.range.value = value.toString();
-//     this.range.ariaValueNow = value.toString();
-    
-//     if (this.showValue) this.#setTextLabel(value / this.max, abs ? value : undefined);
-//   }
-
-//   static update(id: string, value: number) {
-//     let progressbar = document.querySelector(id.startsWith('#') ? 'id' : `#${id}`);
-//     if (!progressbar) return;
-
-//     (progressbar as LFPProgressbar).#setValue(value);
-
-//     console.log('bast');
-//   }
-// }
-
-const SHEET = `@layer lfp {
-  lfp-progressbar {
-    position: relative;
-    display: inline-block;
-    width: min(30ch, 100%);
-    height: 15px;
-    border: 1px solid lightgray;
-    pointer-events: none;
-    overflow: hidden;
-
-    .range {
-      height: 100%;
-      background: lightgray;
-      transform-origin: left;
-      transition: scale 900ms ease-in-out;
-    }
-
-    [role="status"] {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  }
-}`;
-
 export default class LFPProgressbar extends HTMLElement {
-  showValue: boolean;
-  notify = false;
-  min: number;
-  max: number;
-  textLabel: string | null;
-  range = document.createElement('div');
-  output: HTMLElement | undefined;
+  /**
+   * @internal
+   * @prop {boolean} showValue - Specifies if the element display the current
+   * progress status numerically additonally to the graphical representation.
+   */
+  private readonly showValue: boolean;
+  /**
+   * @internal
+   * @prop {boolean} showValue - Specifies if `aria-notify` is set to 
+   * true, when the progressbar finishes. Defaults to `false`.
+   * @default false
+   */
+  private readonly notify: boolean = false;
+  /**
+   * @internal
+   * @prop {number} min - The minimum value for the progressbar.
+   */
+  private readonly min: number;
+  /**
+   * @internal
+   * @prop {number} max - The maximum value for the progressbar.
+   */
+  private readonly max: number;
+  /**
+   * @internal
+   * @prop {string|null} textLabel - The description text for the progressbar.
+   */
+  private textLabel: string | null;
+  /**
+   * @internal
+   * @prop {HTMLDivElement} range - The containing element for the progress indicator.
+   */
+  private readonly range = document.createElement('div');
+  /**
+   * @internal
+   * @prop {HTMLElement|undefined} output
+   */
+  private readonly output: HTMLElement | undefined;
   constructor() {
     super();
 
@@ -117,7 +62,28 @@ export default class LFPProgressbar extends HTMLElement {
     this.max = Number(this.getAttribute('progress-max') ?? this.getAttribute('aria-valuemax'));
     this.textLabel = this.getAttribute('text-label');
 
-    addStylesheet(SHEET);
+    addStylesheet(/* css */ `lfp-progressbar {
+      position: relative;
+      display: inline-block;
+      width: min(30ch, 100%);
+      height: 15px;
+      border: 1px solid lightgray;
+      pointer-events: none;
+      overflow: hidden;
+
+      .range {
+        height: 100%;
+        background: lightgray;
+        transform-origin: left;
+        transition: scale 900ms ease-in-out;
+      }
+
+      [role="status"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }`);
 
     if (this.showValue) {
       this.output = document.createElement('div');
@@ -155,7 +121,24 @@ export default class LFPProgressbar extends HTMLElement {
     this.output.textContent = string;
   }
 
-  setValue(value: number, abs = true) {
+  /**
+   * Set a new value for the progressbar. Call this method periodically
+   * so that the progressbar is updated continuously.
+   * 
+   * @param {number} value The new value for the progressbar.
+   * @param {boolean} [abs=true] Specify if the value passed should be handled
+   * in relation to the progressbar's maximum value or if value is just to be 
+   * added as is. 
+   * @example
+   * ```html
+   * <lfp-progressbar id="load-progress"></lfp-progressbar>
+   * <script>
+   *   const $loadProgress = document.querySelector('#load-progress');
+   *   $loadProgress.setValue(10);
+   * </script>
+   * ```
+   */
+  setValue(value: number, abs: boolean = true) {
     let newValue = value;
     if (abs) newValue /= this.max;
     newValue = Math.min(newValue, 1);
@@ -168,6 +151,20 @@ export default class LFPProgressbar extends HTMLElement {
     );
   }
   
+  /**
+   * Use this `static` method to update the progressbar's current value.
+   * Alternatively, use the `setValue` method on the component's instance itself.
+   * @param {string} id The progressbar's unique ID
+   * @param {number} value The new value for the progressbar.
+   * @example
+   * ```html
+   * <lfp-progressbar id="load-progress"></lfp-progressbar>
+   * <script>
+   *   import LFPProgressbar from 'Progressbar.js';
+   *   LFPProgressbar.update('load-progress', 10);
+   * </script>
+   * ```
+   */
   static update(id: string, value: number) {
     let progressbar = document.querySelector(id.startsWith('#') ? id : `#${id}`);
     if (!progressbar) return;
