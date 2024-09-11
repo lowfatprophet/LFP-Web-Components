@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@lowfatprophet/lfp-wc",
   "version": "0.0.2",
   "description": "A comprehensive collection of web components",
@@ -23,9 +24,6 @@
   "homepage": "https://github.com/lowfatprophet/LFP-Web-Components#readme",
   "scripts": {
     "watch": "tsc watch && npx cem analyze",
-    "build": "rm -rf .parcel-cache && npx cem analyze && parcel build src/*.ts --dist-dir dist --no-scope-hoist --no-content-hash --no-optimize",
-    "test1": "esbuild src/*.ts --outdir=dist",
-    "test": "node esbuild.config.mjs",
     "babel": "babel src -d lib --extensions .ts"
   },
   "type": "module",

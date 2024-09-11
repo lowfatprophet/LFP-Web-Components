@@ -8,6 +8,7 @@
   <script type="module">
     import './lib/disclosure.js';
     import './lib/heading.js';
+    import './lib/toolbar.js';
     import './lib/nixie.js';
     import './lib/numberinput.js';
     import './lib/progressbar.js';
@@ -214,6 +215,7 @@
       </div>
     </section>
 
+    <!-- Progressbar -->
     <section>
       <h2 id="progressbar-component">Progressbar component</h2>
       <div class="demo-area" description="This is what progress looks like!">
@@ -231,6 +233,7 @@
       </div>
     </section>
 
+    <!-- Heading -->
     <section>
       <lfp-h link-symbol="§" symbol-hidden style="margin-block-end: -0.875rem;">
         <h2 id="heading-component">The heading component</h2>
@@ -246,6 +249,7 @@
       <p>While this element is quite opiniated in its design approach. Customizing it to your heart's content is quite simple, too. Any style that is applied out of the box can easily be overridden by applying custom styles to a higher order <code>@layer</code> (as with all web components offered here).</p>
     </section>
 
+    <!-- Number input -->
     <section>
       <h2 id="number-input-component">Number input component</h2>
       <div class="demo-area" description="Try the number input here!">
@@ -256,6 +260,7 @@
       </div>
     </section>
 
+    <!-- Nixie tube -->
     <section>
       <h2 id="nixie-tube-component">Nixie tube component</h2>
       <div class="demo-area" description="Nixie tube clock">
@@ -307,6 +312,19 @@
           <p>To identify multiple Nixie Tubes (again, like with a clock) add an <code>identifier</code> tag and you're good to go.</p>
         </dd>
       </dl>
+    </section>
+
+    <!-- Menu -->
+    <section>
+      <h2 id="toolbar-component">Toolbar component</h2>
+      <p>W3C compliant toolbar component./p>
+      <div class="demo-area" description="Menu">
+        <lfp-toolbar menu-orientation="horizontal">
+          <button>Button 1</button>
+          <button>Button 2</button>
+          <button>Button 3</button>
+        </lfp-toolbar>
+      </div>
     </section>
 
     <section>

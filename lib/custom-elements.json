@@ -4,13 +4,21 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "dist/Disclosure.js",
+      "path": "lib/Disclosure.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A a11y conform simple and easy to customize disclosure component.",
           "name": "LFPDisclosure",
           "members": [
+            {
+              "kind": "field",
+              "name": "trigger"
+            },
+            {
+              "kind": "field",
+              "name": "content"
+            },
             {
               "kind": "method",
               "name": "handleEvent",
@@ -21,14 +29,6 @@
                 }
               ],
               "description": "Handle click events"
-            },
-            {
-              "kind": "field",
-              "name": "trigger"
-            },
-            {
-              "kind": "field",
-              "name": "content"
             }
           ],
           "superclass": {
@@ -40,23 +40,54 @@
       ],
       "exports": [
         {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPDisclosure",
+            "module": "lib/Disclosure.js"
+          }
+        },
+        {
           "kind": "custom-element-definition",
           "name": "lfp-disclosure",
           "declaration": {
             "name": "LFPDisclosure",
-            "module": "dist/Disclosure.js"
+            "module": "lib/Disclosure.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Heading.js",
+      "path": "lib/Heading.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Enhance your headings with automatic link insertion.",
           "name": "LFPHeading",
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Specify the symbol that should prefix the heading itself.",
+              "name": "link-symbol"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set to `true` if the entire heading should be embedded in an anchor-element (be a link).",
+              "name": "link-all"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set to `true` if the symbol prefixing the heading should not be visible (use this attribute instead of passing an empty string to `link-symbol` as `symbol-hidden` affects default styling as well)",
+              "name": "symbol-hidden"
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
           },
@@ -66,29 +97,45 @@
       ],
       "exports": [
         {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPHeading",
+            "module": "lib/Heading.js"
+          }
+        },
+        {
           "kind": "custom-element-definition",
           "name": "lfp-h",
           "declaration": {
             "name": "LFPHeading",
-            "module": "dist/Heading.js"
+            "module": "lib/Heading.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Nixie.js",
+      "path": "lib/Nixie.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Create a simple Nixie tube element to use on your site, for example to\nbuild a clock, countdown, timer or a visitor counter. Your imagination is the\nlimit.",
           "name": "LFPNixieTube",
-          "members": [
+          "attributes": [
             {
-              "kind": "field",
-              "name": "#_",
-              "privacy": "private",
-              "static": true
+              "name": "active-digit",
+              "type": {
+                "text": "string"
+              },
+              "description": "The digit that the element should display (must be a single-digit integer between 0 and 9, including 0 and 9)."
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set to `false` if the active digit should be displayed in front of all the others; default is `true`.",
+              "name": "preserve-stack"
             }
           ],
           "superclass": {
@@ -99,23 +146,31 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPNixieTube",
+            "module": "lib/Nixie.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-nixie-tube",
           "declaration": {
             "name": "LFPNixieTube",
-            "module": "dist/Nixie.js"
+            "module": "lib/Nixie.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Numberinput.js",
+      "path": "lib/Numberinput.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Creates a simple numerical input widget that can be used inside of tool boxes\nor other UI controls.",
           "name": "LFPNumberInput",
           "members": [
             {
@@ -162,23 +217,31 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPNumberInput",
+            "module": "lib/Numberinput.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-numberinput",
           "declaration": {
             "name": "LFPNumberInput",
-            "module": "dist/Numberinput.js"
+            "module": "lib/Numberinput.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Progressbar.js",
+      "path": "lib/Progressbar.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Creates a simple progressbar, that can be updated with the use of `setValue()`\non the instance, or `update()` as static method on the class.",
           "name": "LFPProgressbar",
           "members": [
             {
@@ -208,7 +271,7 @@
                 {
                   "name": "abs",
                   "default": "true",
-                  "description": "Specify if the value passed should be handled\nin relation to the progressbar's maximum value or if value is just to be \nadded as is.",
+                  "description": "Specify if the value passed should be handled\nin relation to the progressbar's maximum value or if value is just to be\nadded as is.",
                   "optional": true,
                   "type": {
                     "text": "boolean"
@@ -245,7 +308,7 @@
               "type": {
                 "text": "boolean"
               },
-              "default": "!!this.getAttribute(\"show-value\")"
+              "default": "!!this.getAttribute('show-value')"
             },
             {
               "kind": "field",
@@ -253,7 +316,7 @@
               "type": {
                 "text": "boolean"
               },
-              "default": "!!this.getAttribute(\"aria-notify\")"
+              "default": "!!this.getAttribute('aria-notify')"
             },
             {
               "kind": "field",
@@ -268,37 +331,70 @@
               "name": "textLabel"
             }
           ],
+          "attributes": [
+            {
+              "description": "Specify if the current progress should get a numerical representation as well.",
+              "name": "show-value"
+            },
+            {
+              "description": "Set the minimum value for the progress bar.",
+              "name": "progress-min"
+            },
+            {
+              "description": "Set the maximum value for the progress bar.",
+              "name": "progress-max"
+            },
+            {
+              "description": "Set an optional text label for the progressbar. Use `${rel}` and `${abs}` to display the current relative and absolute progress value.",
+              "name": "text-label"
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
           },
+          "summary": "A W3 compliant progress bar web component, https://w3c.github.io/aria/#progressbar.",
           "tagName": "lfp-progressbar",
           "customElement": true
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPProgressbar",
+            "module": "lib/Progressbar.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-progressbar",
           "declaration": {
             "name": "LFPProgressbar",
-            "module": "dist/Progressbar.js"
+            "module": "lib/Progressbar.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Scrollmeter.js",
+      "path": "lib/Scrollmeter.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A web component signalling the user's scroll progress over a given containing\nelement on the page. Currently, only `document` (i.e., the `body` element) is\navailable for scroll tracking; more to come in the near future.",
           "name": "LFPScrollMeter",
           "members": [
             {
               "kind": "method",
               "name": "#init",
               "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "description": "Specify the element on which the scroll meter should be applied. **Important**: Currently not implemented.",
+              "name": "scroll-element"
             }
           ],
           "superclass": {
@@ -309,19 +405,27 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPScrollMeter",
+            "module": "lib/Scrollmeter.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-scrollmeter",
           "declaration": {
             "name": "LFPScrollMeter",
-            "module": "dist/Scrollmeter.js"
+            "module": "lib/Scrollmeter.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Skeleton.js",
+      "path": "lib/Skeleton.js",
       "declarations": [
         {
           "kind": "class",
@@ -335,23 +439,31 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPSkeletext",
+            "module": "lib/Skeleton.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-skeletext",
           "declaration": {
             "name": "LFPSkeletext",
-            "module": "dist/Skeleton.js"
+            "module": "lib/Skeleton.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Tablist.js",
+      "path": "lib/Tablist.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A concise component enabling a W3 compliant tab list with sensible fallbacks\nand easy styling.",
           "name": "LFPTablist",
           "members": [
             {
@@ -418,31 +530,56 @@
               "name": "panels"
             }
           ],
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Enter either 'horizontal' or 'vertical' for the navigation's orientation; register tabs are either lined up or stacked. Defaults to 'horizontal' if no value is provided for `menu-orientation`.",
+              "name": "menu-orientation"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Specify this value if you want your tab descriptions to be headings. Provide a number between one and six to replace the standard button text of the tab panel's register with a heading of the given level.",
+              "name": "heading-level"
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
           },
+          "summary": "A W3 compliant tab list web component, https://www.w3.org/WAI/ARIA/apg/patterns/tabs/.",
           "tagName": "lfp-tablist",
           "customElement": true
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPTablist",
+            "module": "lib/Tablist.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-tablist",
           "declaration": {
             "name": "LFPTablist",
-            "module": "dist/Tablist.js"
+            "module": "lib/Tablist.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/ToC.js",
+      "path": "lib/ToC.js",
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "This class creates a comprehensive table of contents from a list of given\nheadings found in the document. The ToC can be updated during runtime through\nlistening to the `lfp:update-toc` event on the document root.",
           "name": "LFPToC",
           "members": [
             {
@@ -521,6 +658,50 @@
               "name": "headings"
             }
           ],
+          "attributes": [
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Set the lowest hierarchy of headings included in the ToC, defaults to 6 (e.g., includes all headings up to and including `h6`).",
+              "name": "min-level"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Set the highest hierarchy of headings included in the ToC, defaults to 2 (e.g., includes all headings up to and including `h2`).",
+              "name": "max-level"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "IDs are needed when you want to link to the headings gathered in the ToC. If `set-id` is set, the component creates IDs for every heading that does not yet have one.",
+              "name": "set-id"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "By default, the component searches the entire document for headings. If you want to focus the table of content on specific parts of your site, pass a valid CSS selector to this attribute.",
+              "name": "toc-root"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "By default, the component looks for HTMLHeadingElements only. If you want to add other items that qualify as ToC items, provide a list of valid CSS selectors. **Note**: if `min-level` and `max-level` are both set to `0` and `add-items` is set with a valid list of selectors, only these will get added to the ToC.",
+              "name": "add-items"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "By default, the component enumerates the ToC's entries (e.g., creates `HTMLOListElement`s). If you do not want enumerated entries (e.g., `HTMLUListElement`), set this attribute.",
+              "name": "no-numeration"
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
           },
@@ -529,19 +710,27 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPToC",
+            "module": "lib/ToC.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-toc",
           "declaration": {
             "name": "LFPToC",
-            "module": "dist/ToC.js"
+            "module": "lib/ToC.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/Toast.js",
+      "path": "lib/Toast.js",
       "declarations": [
         {
           "kind": "class",
@@ -603,6 +792,29 @@
               "name": "animationDelay"
             }
           ],
+          "attributes": [
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Specify how long the toast should be visible on screen in milliseconds. Defaults to 4000.",
+              "name": "close-delay"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Specify whether the toast element should be dismissable. If set to `true`, a button is appended to the toast allowing the user to remove the toast from the view.",
+              "name": "close-button"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Specify how long the",
+              "name": "animation-delay"
+            }
+          ],
           "superclass": {
             "name": "HTMLElement"
           },
@@ -611,556 +823,362 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPToast",
+            "module": "lib/Toast.js"
+          }
+        },
         {
           "kind": "custom-element-definition",
           "name": "lfp-toast",
           "declaration": {
             "name": "LFPToast",
-            "module": "dist/Toast.js"
+            "module": "lib/Toast.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/globals.d.js",
+      "path": "lib/globals.d.js",
       "declarations": [],
       "exports": []
     },
     {
       "kind": "javascript-module",
-      "path": "dist/index.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPDisclosure",
-          "members": [
-            {
-              "kind": "method",
-              "name": "handleEvent",
-              "parameters": [
-                {
-                  "name": "event",
-                  "description": "The event object"
-                }
-              ],
-              "description": "Handle click events"
-            },
-            {
-              "kind": "field",
-              "name": "trigger"
-            },
-            {
-              "kind": "field",
-              "name": "content"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-disclosure",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPNixieTube",
-          "members": [
-            {
-              "kind": "field",
-              "name": "#_",
-              "privacy": "private",
-              "static": true
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-nixie-tube",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPNumberInput",
-          "members": [
-            {
-              "kind": "method",
-              "name": "#createButton",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "text"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#clickAndHold",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "btnEl"
-                },
-                {
-                  "name": "callback"
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "input"
-            },
-            {
-              "kind": "field",
-              "name": "decrementButton"
-            },
-            {
-              "kind": "field",
-              "name": "incrementButton"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-numberinput",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPProgressbar",
-          "members": [
-            {
-              "kind": "method",
-              "name": "#setTextLabel",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "rel"
-                },
-                {
-                  "name": "abs"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "setValue",
-              "parameters": [
-                {
-                  "name": "value",
-                  "description": "The new value for the progressbar.",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "abs",
-                  "default": "true",
-                  "description": "Specify if the value passed should be handled\nin relation to the progressbar's maximum value or if value is just to be \nadded as is.",
-                  "optional": true,
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ],
-              "description": "Set a new value for the progressbar. Call this method periodically\nso that the progressbar is updated continuously."
-            },
-            {
-              "kind": "method",
-              "name": "update",
-              "static": true,
-              "parameters": [
-                {
-                  "name": "id",
-                  "description": "The progressbar's unique ID",
-                  "type": {
-                    "text": "string"
-                  }
-                },
-                {
-                  "name": "value",
-                  "description": "The new value for the progressbar.",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ],
-              "description": "Use this `static` method to update the progressbar's current value.\nAlternatively, use the `setValue` method on the component's instance itself."
-            },
-            {
-              "kind": "field",
-              "name": "showValue",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "!!this.getAttribute(\"show-value\")"
-            },
-            {
-              "kind": "field",
-              "name": "notify",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "!!this.getAttribute(\"aria-notify\")"
-            },
-            {
-              "kind": "field",
-              "name": "min"
-            },
-            {
-              "kind": "field",
-              "name": "max"
-            },
-            {
-              "kind": "field",
-              "name": "textLabel"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-progressbar",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPScrollMeter",
-          "members": [
-            {
-              "kind": "method",
-              "name": "#init",
-              "privacy": "private"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-scrollmeter",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPSkeletext",
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-skeletext",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPTablist",
-          "members": [
-            {
-              "kind": "method",
-              "name": "#setLinkedHeading",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "url"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#setFocus",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "selected"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#createTabButton",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "description"
-                },
-                {
-                  "name": "idx"
-                },
-                {
-                  "name": "tabindex",
-                  "default": "false"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#toggleVisibility",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#setAttributes",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "el"
-                },
-                {
-                  "name": "items"
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "orientation"
-            },
-            {
-              "kind": "field",
-              "name": "panels"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-tablist",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPToast",
-          "members": [
-            {
-              "kind": "method",
-              "name": "handleEvent",
-              "parameters": [
-                {
-                  "name": "event"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#remove",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "element"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "emit",
-              "static": true,
-              "parameters": [
-                {
-                  "name": "description",
-                  "description": "Text to describe what the user is informed\nabout (keep it short!)",
-                  "type": {
-                    "text": "string"
-                  }
-                },
-                {
-                  "name": "title",
-                  "description": "An optional title for the toast.",
-                  "type": {
-                    "text": "string?"
-                  }
-                },
-                {
-                  "name": "dismissable",
-                  "default": "false",
-                  "description": "Toggle if the dismissable with a close button.",
-                  "optional": true,
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ],
-              "description": "Emits a signal that is catched by the toast component to give out a toast.\nKeep in mind, that in order to use this static method, you have to import\nthe base class for the toast component into your project."
-            },
-            {
-              "kind": "field",
-              "name": "animationDelay"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-toast",
-          "customElement": true
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "LFPToC",
-          "members": [
-            {
-              "kind": "method",
-              "name": "#setupObserver",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#createToC",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#collectHeadings",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#setId",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "headings"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#createSelectorStr",
-              "privacy": "private",
-              "description": "Creates a valid selector string from a range of numbers to gather a\nNodeList of headings of the document.",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "#createListElement",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "headings",
-                  "description": "A NodeList of heading\nelements to be included in the table of content.",
-                  "type": {
-                    "text": "NodeListOf<HTMLHeadingElement>"
-                  }
-                },
-                {
-                  "name": "idx",
-                  "description": "The starting point at which to enter the node list.",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ],
-              "description": "Creates the content for the ToC by iterating recursively over all given headings",
-              "return": {
-                "type": {
-                  "text": ""
-                }
-              }
-            },
-            {
-              "kind": "field",
-              "name": "maxLevel"
-            },
-            {
-              "kind": "field",
-              "name": "minLevel"
-            },
-            {
-              "kind": "field",
-              "name": "headings"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "lfp-toc",
-          "customElement": true
-        }
-      ],
+      "path": "lib/index.js",
+      "declarations": [],
       "exports": [
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-disclosure",
+          "kind": "js",
+          "name": "LFPDisclosure",
           "declaration": {
             "name": "LFPDisclosure",
-            "module": "dist/index.js"
+            "module": "lib/index.js"
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-nixie-tube",
+          "kind": "js",
+          "name": "LFPNixie",
           "declaration": {
-            "name": "LFPNixieTube",
-            "module": "dist/index.js"
+            "name": "LFPNixie",
+            "module": "lib/index.js"
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-numberinput",
+          "kind": "js",
+          "name": "LFPNumberinput",
           "declaration": {
-            "name": "LFPNumberInput",
-            "module": "dist/index.js"
+            "name": "LFPNumberinput",
+            "module": "lib/index.js"
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-progressbar",
+          "kind": "js",
+          "name": "LFPProgressbar",
           "declaration": {
             "name": "LFPProgressbar",
-            "module": "dist/index.js"
+            "module": "lib/index.js"
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-scrollmeter",
+          "kind": "js",
+          "name": "LFPScrollmeter",
           "declaration": {
-            "name": "LFPScrollMeter",
-            "module": "dist/index.js"
+            "name": "LFPScrollmeter",
+            "module": "lib/index.js"
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-skeletext",
+          "kind": "js",
+          "name": "LFPSkeleton",
           "declaration": {
-            "name": "LFPSkeletext",
-            "module": "dist/index.js"
+            "name": "LFPSkeleton",
+            "module": "lib/index.js"
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-tablist",
+          "kind": "js",
+          "name": "LFPTablist",
           "declaration": {
             "name": "LFPTablist",
-            "module": "dist/index.js"
+            "module": "lib/index.js"
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "lfp-toast",
-          "declaration": {
-            "name": "LFPToast",
-            "module": "dist/index.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "lfp-toc",
+          "kind": "js",
+          "name": "LFPToC",
           "declaration": {
             "name": "LFPToC",
-            "module": "dist/index.js"
+            "module": "lib/index.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LFPToast",
+          "declaration": {
+            "name": "LFPToast",
+            "module": "lib/index.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/utilities.js",
-      "declarations": [],
-      "exports": []
+      "path": "lib/utilities.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "CSS_LAYER",
+          "type": {
+            "text": "string"
+          },
+          "default": "'lfp'"
+        },
+        {
+          "kind": "class",
+          "description": "Class representing a storage interface to save items to window.localStorage\nor similar structures and retrieve it from there.\nThis class does *not* provide asynchronous functionality.",
+          "name": "StorageController",
+          "members": [
+            {
+              "kind": "field",
+              "name": "storage",
+              "default": "storage"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "default": "name"
+            },
+            {
+              "kind": "method",
+              "name": "#replacer",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "_"
+                },
+                {
+                  "name": "value"
+                }
+              ],
+              "description": "https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map"
+            },
+            {
+              "kind": "method",
+              "name": "#reviver",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "_"
+                },
+                {
+                  "name": "value"
+                }
+              ],
+              "description": "https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map"
+            },
+            {
+              "kind": "method",
+              "name": "save",
+              "parameters": [
+                {
+                  "name": "items",
+                  "description": "Map of items to add to the storage",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Adds one of more key/value pairs to the storage object."
+            },
+            {
+              "kind": "method",
+              "name": "load",
+              "parameters": [
+                {
+                  "name": "key",
+                  "description": "a key of the storage object",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Returns a specific value to a given key.",
+              "return": {
+                "type": {
+                  "text": "any|undefined"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "saveAll",
+              "parameters": [
+                {
+                  "name": "input",
+                  "description": "the map to be stored in the storage object",
+                  "type": {
+                    "text": "Map<string, any>"
+                  }
+                }
+              ],
+              "description": "Saves a map to the storage object.\n\n**Beware**: `saveAll` overwrites all entries in the storage object. For\nadding values without overwriting unaffected ones, use `save`."
+            },
+            {
+              "kind": "method",
+              "name": "loadAll",
+              "description": "Returns a map with the entire storage object content.",
+              "return": {
+                "type": {
+                  "text": "Map<string, any>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "addLayer",
+          "parameters": [
+            {
+              "name": "styles",
+              "description": "String of valid CSS settings.",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "layer",
+              "default": "CSS_LAYER",
+              "description": "The CSS layer the styles should be placed on.",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Wraps the given string of CSS settings with the",
+          "return": {
+            "type": {
+              "text": ""
+            }
+          }
+        },
+        {
+          "kind": "function",
+          "name": "addStylesheet",
+          "parameters": [
+            {
+              "name": "stylestring",
+              "description": "the given CSS styles (must comply to CSS standards!)",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Adds the given text, which must comply to CSS standards, as a `CSSStyleSheet`\nobject to the documents list of adopted stylesheets."
+        },
+        {
+          "kind": "function",
+          "name": "css",
+          "parameters": [
+            {
+              "name": "temps"
+            },
+            {
+              "name": "args"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "isValidAttr",
+          "parameters": [
+            {
+              "name": "attr",
+              "description": "The attribute's name.",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "target",
+              "description": "The target element from which the attribute should\nbe taken. Use `this` in class context of web components.",
+              "type": {
+                "text": "HTMLElement"
+              }
+            },
+            {
+              "name": "bool",
+              "default": "false",
+              "description": "Flag if you expect the attribute to function as a\nboolean indicator, i.e., the attribute does not need a value and this\nfunction is only checking if the attribute is present on the element at all",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ],
+          "description": "`element.getAttribute()` returns the factual value the element's attribute\nactually has. This means that it returns a truish empty string if the\nattribute is present but there is no value given. If you want to verify that\nthere is a value (because your component depends on it) you have to actively\ncheck for this, too. This function offers a short-hand for this process.",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CSS_LAYER",
+          "declaration": {
+            "name": "CSS_LAYER",
+            "module": "lib/utilities.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "StorageController",
+          "declaration": {
+            "name": "StorageController",
+            "module": "lib/utilities.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "addLayer",
+          "declaration": {
+            "name": "addLayer",
+            "module": "lib/utilities.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "addStylesheet",
+          "declaration": {
+            "name": "addStylesheet",
+            "module": "lib/utilities.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "css",
+          "declaration": {
+            "name": "css",
+            "module": "lib/utilities.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isValidAttr",
+          "declaration": {
+            "name": "isValidAttr",
+            "module": "lib/utilities.js"
+          }
+        }
+      ]
     }
   ]
 }

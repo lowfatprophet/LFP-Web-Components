@@ -91,8 +91,8 @@ export default class LFPNumberInput extends HTMLElement {
       timeoutId = setTimeout(() => {
         intervalId = setInterval(() => {
           callback();
-        }, DURATION);
-      }, DELAY);
+        }, DURATION) as unknown as number;
+      }, DELAY) as unknown as number;
     };
 
     // stop or clear interval

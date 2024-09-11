@@ -8,6 +8,8 @@
         "target": "ESNext",
         "verbatimModuleSyntax": true,
         // "noEmit": true,
+        "noEmitHelpers": true,
+        "importHelpers": true,
         // "moduleResolution": "nodenext",
         "moduleDetection": "force",
 
@@ -26,7 +28,7 @@
             "es2021"
         ],
         "sourceMap": false,
-        // so that the library is still documented by JSDoc
+        // so that the library is still documented with JSDoc comments
         "removeComments": false,
 
         /* Strictness */
@@ -36,8 +38,6 @@
         "strictPropertyInitialization": true,
         "strictFunctionTypes": true,
         "noUncheckedIndexedAccess": true,
-        "noEmitHelpers": true,
-        "importHelpers": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitThis": true,

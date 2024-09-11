@@ -21,7 +21,7 @@ Speaking of styling: have it even simpler and use CSS layers. All components are
 @layer reset, lfp, base, layout, components;
 ```
 
-This way you can ensure to not let shine through any of the component's base  style through your design system.
+This way you can ensure to not let shine through any of the component's base style through your design system.
 
 ## Overview
 
