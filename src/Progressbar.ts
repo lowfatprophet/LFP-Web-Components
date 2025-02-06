@@ -65,14 +65,14 @@ export default class LFPProgressbar extends HTMLElement {
     addStylesheet(/* css */ `lfp-progressbar {
       position: relative;
       display: inline-block;
-      width: min(30ch, 100%);
-      height: 15px;
+      inline-size: min(30ch, 100%);
+      block-size: 15px;
       border: 1px solid lightgray;
       pointer-events: none;
       overflow: hidden;
 
       .range {
-        height: 100%;
+        block-size: 100%;
         background: lightgray;
         transform-origin: left;
         transition: scale 900ms ease-in-out;
@@ -80,8 +80,8 @@ export default class LFPProgressbar extends HTMLElement {
 
       [role="status"] {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset-block-start: 0;
+        inset-inline-start: 0;
       }
     }`);
 
@@ -138,7 +138,7 @@ export default class LFPProgressbar extends HTMLElement {
    * </script>
    * ```
    */
-  setValue(value: number, abs: boolean = true) {
+  setValue(value: number, abs = true) {
     let newValue = value;
     if (abs) newValue /= this.max;
     newValue = Math.min(newValue, 1);
@@ -166,7 +166,7 @@ export default class LFPProgressbar extends HTMLElement {
    * ```
    */
   static update(id: string, value: number) {
-    let progressbar = document.querySelector(id.startsWith('#') ? id : `#${id}`);
+    const progressbar = document.querySelector(id.startsWith('#') ? id : `#${id}`);
     if (!progressbar) return;
     
     (progressbar as LFPProgressbar).setValue(value);

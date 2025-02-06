@@ -22,11 +22,11 @@ export default class LFPHeading extends HTMLElement {
   constructor() {
     super();
 
-    let heading = this.children[0];
+    const heading = this.children[0];
     
     if (!heading) return;
     
-    let id = heading.id === '' ? heading.textContent?.replaceAll(' ', '-').toLowerCase() : heading.id;
+    const id = heading.id === '' ? heading.textContent?.replaceAll(' ', '-').toLowerCase() : heading.id;
 
     if (!id) return;
 
@@ -48,8 +48,8 @@ export default class LFPHeading extends HTMLElement {
         .link-symbol {
           text-decoration: none;
           /* The following styles are include, because "visibility: hidden/visible" would make the link inaccessible for keyboard users (tabbing through the page would not detect this link). Would this be actually a good thing? I don't know. */
-          width: 1px;
-          height: 1px;
+          inline-size: 1px;
+          block-size: 1px;
           margin: -1px;
           clip: (0, 0, 0, 0);
           overflow: hidden;
@@ -58,8 +58,8 @@ export default class LFPHeading extends HTMLElement {
         }
 
         &:is(:hover, :focus, :focus-within) .link-symbol {
-          width: auto;
-          height: auto;
+          inline-size: auto;
+          block-size: auto;
           margin: initial;
           clip: auto;
           overflow: auto;
@@ -70,24 +70,25 @@ export default class LFPHeading extends HTMLElement {
     /** @internal */
     heading.id = id;
 
-    let link = document.createElement('a');
+    const link = document.createElement('a');
 
-    let symbol: string | undefined;
+    let symbol = '';
     if (this.hasAttribute('link-symbol')) {
-      let arg = !!this.getAttribute('link-symbol');
+      const arg = !!this.getAttribute('link-symbol');
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       symbol = arg ? this.getAttribute('link-symbol')! : '#';
     }
     
     if (this.hasAttribute('link-all')) {
       link.append(heading);
       if (this.hasAttribute('link-symbol')) {
-        let span = document.createElement('span');
-        span.textContent = symbol!;
+        const span = document.createElement('span');
+        span.textContent = symbol;
         span.classList.add('link-symbol');
         link.prepend(span);
       }
     } else if (this.hasAttribute('link-symbol')) {
-      link.textContent = symbol!;
+      link.textContent = symbol;
       link.classList.add('link-symbol');
     }
 

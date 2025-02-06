@@ -1,5 +1,4 @@
 import { addStylesheet, isValidAttr } from "./utilities.js";
-// import sheet from 'inline:./styles/toast.css';
 
 interface LFPToastEvent extends CustomEvent {
   detail: {
@@ -35,11 +34,11 @@ export default class LFPToast extends HTMLElement {
         list-style: none;
         position: fixed;
         bottom: 1rem;
-        left: 1rem;
+        inset-inline-start: 1rem;
         display: flex;
         flex-direction: column-reverse;
         gap: 1rem;
-        max-width: min(65ch, calc(100% - 2rem));
+        max-inline-size: min(65ch, calc(100% - 2rem));
         margin: 0;
         padding: 0;
         font-size: 0.875rem;
@@ -74,7 +73,7 @@ export default class LFPToast extends HTMLElement {
           button {
             grid-row: 1 / 3;
             align-self: center;
-            width: 20px;
+            block-size: 20px;
             aspect-ratio: 1;
             padding: 0.75rem;
             border: none;
@@ -106,16 +105,16 @@ export default class LFPToast extends HTMLElement {
 
   handleEvent(event: LFPToastEvent) {
     if (!event.detail.description) return;
-    let toast = document.createElement('li');
+    const toast = document.createElement('li');
     toast.setAttribute('role', 'status');
 
-    let description = document.createElement('span');
+    const description = document.createElement('span');
 
     this.ul.prepend(toast);
     
     setTimeout(() => {
       if (event.detail.title) {
-        let title = document.createElement('span');
+        const title = document.createElement('span');
         toast.append(title);
         title.textContent = event.detail.title;
       }
@@ -124,7 +123,7 @@ export default class LFPToast extends HTMLElement {
       description.textContent = event.detail.description;
 
       if (this.dismissable || event.detail.dismissable) {
-        let closeBtn = document.createElement('button');
+        const closeBtn = document.createElement('button');
         closeBtn.setAttribute('aria-label', 'dismiss status message');
         closeBtn.addEventListener('click', () => this.#remove(closeBtn.parentElement));
         toast.append(closeBtn);
@@ -155,7 +154,7 @@ export default class LFPToast extends HTMLElement {
    * LFPToast.emit('Toast description', 'Toast title', true);
    * ```
    */
-  static emit(description: string, title: string, dismissable: boolean = false) {
+  static emit(description: string, title: string, dismissable = false) {
     document.dispatchEvent(new CustomEvent('lfp:toast', {
       bubbles: true,
       cancelable: true,

@@ -6,17 +6,17 @@
   <link rel="stylesheet" href="src/styles/common.css">
 
   <script type="module">
-    import '/LFP-Web-Components/lib/Disclosure.js';
-    import '/LFP-Web-Components/lib/Heading.js';
-    import '/LFP-Web-Components/lib/Toolbar.js';
-    import '/LFP-Web-Components/lib/Nixie.js';
-    import '/LFP-Web-Components/lib/Numberinput.js';
-    import '/LFP-Web-Components/lib/Progressbar.js';
-    import '/LFP-Web-Components/lib/Scrollmeter.js';
-    import '/LFP-Web-Components/lib/Skeleton.js';
-    import '/LFP-Web-Components/lib/Tablist.js';
-    import LFPToast from '/LFP-Web-Components/lib/Toast.js';
-    import '/LFP-Web-Components/lib/ToC.js';
+    import './lib/Disclosure.js';
+    import './lib/Heading.js';
+    import './lib/Toolbar.js';
+    import './lib/Nixie.js';
+    import './lib/Numberinput.js';
+    import './lib/Progressbar.js';
+    import './lib/Scrollmeter.js';
+    import './lib/Skeleton.js';
+    import './lib/Tablist.js';
+    import LFPToast from './lib/Toast.js';
+    import './lib/ToC.js';
 
     // Toast component code
     document.querySelector('#toast-form')
@@ -50,6 +50,7 @@
     setTime();
     setInterval(setTime, 1000);
   </script>
+
   <title>LFP Web Components</title>
 </head>
 <body>
@@ -58,9 +59,9 @@
   
     <header>
       <h1>LFP Web Components</h1>
-      <lfp-toc min-level="5" set-id mark-current></lfp-toc>
-  
       <p>A comprehensive collection of all web components offered with LFP. Have a look at <a href="#main-component-section">an overview of all web components</a> or <a href="#additional-examples">view some components on their dedicated example page</a>.</p>
+
+      <lfp-toc min-level="5" set-id mark-current></lfp-toc>
   
       <h2 id="additional-examples">Additional examples</h2>
       <nav>
@@ -167,16 +168,16 @@
         <ul>
           <li>the animation's current play state is <code>"paused"</code></li>
           <li>the animation's durations equals the toast components value for <code>animation-delay</code></li>
-          <li>the animations's name starts with <code>"toast..."</code></li>
+          <li>the animation's name starts with <code>"toast..."</code></li>
         </ul>
         <p>Trigger an toast by emitting a new toast with <code>LFPToast.emit(description, title?, dismissable=false)</code>. Alternatively, dispatch your own event: LFPToast listens to <code>'lfp:toast'</code> and requires your event to feature:</p>
         <pre>{
-    detail: {
-      title: string,
-      description: string,
-      dismissable: boolean
-    }
-  }</pre>
+  detail: {
+    title: string,
+    description: string,
+    dismissable: boolean,
+  },
+}</pre>
         <p>Import the class with <code>import LFPToast from 'lfp-wc/toast';</code>.</p>
         <div class="demo-area" description="Type in a message and a title to demo the toast component!">
           <form id="toast-form">
@@ -319,7 +320,7 @@
       <!-- Menu -->
       <section>
         <h2 id="toolbar-component">Toolbar component</h2>
-        <p>W3C compliant toolbar component./p>
+        <p>W3C compliant toolbar component.</p>
         <div class="demo-area" description="Menu">
           <lfp-toolbar menu-orientation="horizontal">
             <button>Button 1</button>

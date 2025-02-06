@@ -32,9 +32,8 @@ export class StorageController {
         dataType: 'Map',
         value: [...value]
       };
-    } else {
-      return value;
     }
+    return value;
   }
   /**
    * https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
@@ -52,7 +51,7 @@ export class StorageController {
    * @param {string} items Map of items to add to the storage
    */
   public save(items: Map<string, any>): void {
-    let storage = this.loadAll();
+    const storage = this.loadAll();
     items.forEach((key, value) => storage.set(key, value));
     this.saveAll(storage);
   }
@@ -62,7 +61,7 @@ export class StorageController {
    * @returns {any|undefined} the value behind the key (if existent), otherwise `undefined`
    */
   public load(key: string): any | undefined {
-    let value = this.loadAll().get(key);
+    const value = this.loadAll().get(key);
     if (!value) return;
     return JSON.parse(value, this.#reviver);
   }
@@ -134,11 +133,8 @@ export function css(temps: TemplateStringsArray, ...args: string[]) {
  * function is only checking if the attribute is present on the element at all
  * @returns {boolean}
  */
-export function isValidAttr(attr: string, target: HTMLElement, bool: boolean = false): boolean {
-  let val = target.getAttribute(attr);
-  if (bool) {
-    return val !== null;
-  } else {
-    return val !== '' || val !== null;
-  }
+export function isValidAttr(attr: string, target: HTMLElement, bool = false): boolean {
+  const val = target.getAttribute(attr);
+  if (bool) return val !== null;
+  return val !== '' || val !== null;
 }
