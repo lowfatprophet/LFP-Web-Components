@@ -843,6 +843,68 @@
     },
     {
       "kind": "javascript-module",
+      "path": "lib/Toolbar.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LFPToolbar",
+          "members": [
+            {
+              "kind": "field",
+              "name": "items"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "number"
+              },
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "#setFocus",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "selected"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "orientation"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "lfp-toolbar",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPToolbar",
+            "module": "lib/Toolbar.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "lfp-toolbar",
+          "declaration": {
+            "name": "LFPToolbar",
+            "module": "lib/Toolbar.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "lib/globals.d.js",
       "declarations": [],
       "exports": []

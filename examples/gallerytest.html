@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery Test</title>
+
+  <script src="../lib/Gallery.js" type="module"></script>
+
+  <style>
+    @layer reset, lfp, base, layout, components;
+
+    :root {
+      color-scheme: light dark;
+    }
+    
+    body {
+      min-block-size: 100dvh;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 1.125rem;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    header h1 {
+      margin: 0 1rem;
+    }
+
+    main { grid-area: main; }
+
+    p:first-of-type {
+      margin-block-start: 0;
+    }
+
+    @layer components {
+
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Gallery Test</h1>
+  </header>
+  <main>
+    <lfp-gallery>
+      <img src="https://placebear.com/2000/3000" alt="">
+    </lfp-gallery>
+  </main>
+</body>
+</html>
