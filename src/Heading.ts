@@ -22,11 +22,11 @@ export default class LFPHeading extends HTMLElement {
   constructor() {
     super();
 
-    let heading = this.children[0];
+    const heading = this.children[0];
     
     if (!heading) return;
     
-    let id = heading.id === '' ? heading.textContent?.replaceAll(' ', '-').toLowerCase() : heading.id;
+    const id = heading.id === '' ? heading.textContent?.replaceAll(' ', '-').toLowerCase() : heading.id;
 
     if (!id) return;
 
@@ -70,24 +70,25 @@ export default class LFPHeading extends HTMLElement {
     /** @internal */
     heading.id = id;
 
-    let link = document.createElement('a');
+    const link = document.createElement('a');
 
-    let symbol: string | undefined;
+    let symbol = '';
     if (this.hasAttribute('link-symbol')) {
-      let arg = !!this.getAttribute('link-symbol');
+      const arg = !!this.getAttribute('link-symbol');
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       symbol = arg ? this.getAttribute('link-symbol')! : '#';
     }
     
     if (this.hasAttribute('link-all')) {
       link.append(heading);
       if (this.hasAttribute('link-symbol')) {
-        let span = document.createElement('span');
-        span.textContent = symbol!;
+        const span = document.createElement('span');
+        span.textContent = symbol;
         span.classList.add('link-symbol');
         link.prepend(span);
       }
     } else if (this.hasAttribute('link-symbol')) {
-      link.textContent = symbol!;
+      link.textContent = symbol;
       link.classList.add('link-symbol');
     }
 

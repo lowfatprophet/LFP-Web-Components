@@ -61,18 +61,22 @@ export default class LFPNumberInput extends HTMLElement {
     this.input.after(this.incrementButton);
 
     this.#clickAndHold(this.decrementButton, () => {
-      let currentVal = this.input!.value;
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      const currentVal = this.input!.value;
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       this.input!.value = (Number(currentVal) - 1).toString();
     });
 
     this.#clickAndHold(this.incrementButton, () => {
-      let currentVal = this.input!.value;
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      const currentVal = this.input!.value;
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       this.input!.value = (Number(currentVal) + 1).toString();
     });
   }
 
   #createButton(text: string) {
-    let button = document.createElement('button');
+    const button = document.createElement('button');
     button.textContent = text;
     return button;
   }

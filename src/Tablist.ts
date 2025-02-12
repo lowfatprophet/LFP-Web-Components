@@ -75,8 +75,9 @@ export default class LFPTablist extends HTMLElement {
 
     // a11y compatibility
     this.setAttribute('role', 'tablist');
-    let label = this.querySelector('[label]');
+    const label = this.querySelector('[label]');
     if (label) {
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       this.setAttribute('aria-labelledby', label.getAttribute('label')!);
       this.removeAttribute('aria-label');
     }
@@ -85,10 +86,10 @@ export default class LFPTablist extends HTMLElement {
     this.panels = this.querySelectorAll('[tab-description]');
     if (this.panels.length === 0) this.panels = this.childNodes as NodeListOf<Element>;
     if (this.panels.length === 0) return;
-    this.panels.forEach(el => {
+    for (const el of this.panels) {
       this.#setAttributes(el, new Map([['role', 'tabpanel'], ['aria-selected', 'false']]));
       if (isValidAttr('keep-size', this, true)) el.classList.add('keep-size');
-    });
+    }
 
     this.prepend(this.tabMenu);
 
@@ -134,11 +135,11 @@ export default class LFPTablist extends HTMLElement {
     }`);
 
     // create tab nav menu
-    let ul = document.createElement('ul');
+    const ul = document.createElement('ul');
     this.panels.forEach((el, idx) => {
-      let li = document.createElement('li');
-      let button = this.#createTabButton(
-        el.getAttribute('tab-description') ?? `${idx + 1}`, idx, idx === 0 ? true : false
+      const li = document.createElement('li');
+      const button = this.#createTabButton(
+        el.getAttribute('tab-description') ?? `${idx + 1}`, idx, idx === 0
       );
       this.buttons.push(button);
       li.append(button);
@@ -152,7 +153,7 @@ export default class LFPTablist extends HTMLElement {
   }
 
   #setLinkedHeading(url: string) {
-    let heading = url.split('#')[1];
+    const heading = url.split('#')[1];
     const setSelected = (list: Element[]) => {
       list.forEach((el, idx) => {
         try {
@@ -187,7 +188,7 @@ export default class LFPTablist extends HTMLElement {
     });
     this.tabMenu.addEventListener('focusin', _ => this.buttons[this.selected]?.focus());
     this.tabMenu.addEventListener('click', e => {
-      let button = (e.target as Element).closest('button');
+      const button = (e.target as Element).closest('button');
       if (!button) return;
       e.preventDefault();
       this.selected = Number(button.getAttribute('index'));
@@ -211,10 +212,10 @@ export default class LFPTablist extends HTMLElement {
   }
 
   #createTabButton(description: string, idx: number, tabindex = false): HTMLButtonElement {
-    let button = document.createElement('button');
-    let headingLevel = this.getAttribute('heading-level');
+    const button = document.createElement('button');
+    const headingLevel = this.getAttribute('heading-level');
     if (headingLevel) {
-      let heading = document.createElement(`h${headingLevel}`);
+      const heading = document.createElement(`h${headingLevel}`);
       heading.id = description.replaceAll(' ', '-').toLowerCase();
       heading.textContent = description;
       button.append(heading);

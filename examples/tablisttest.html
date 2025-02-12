@@ -32,7 +32,7 @@
       align-self: start;
       position: sticky;
       top: 0.5rem;
-      max-height: calc(100dvh - 0.5rem);
+      max-block-size: calc(100dvh - 0.5rem);
       overflow: auto;
     }
 
@@ -55,14 +55,14 @@
         overflow: hidden;
 
         nav {
-          height: 50px;
+          block-size: 50px;
         }
 
         section {
           position: relative;
           
           .content {
-            height: calc(95dvh - 50px);
+            block-size: calc(95dvh - 50px);
             padding-block: 20px;
             overflow: auto;
           }

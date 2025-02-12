@@ -79,14 +79,14 @@ export default class LFPNixieTube extends HTMLElement {
     if (attr === this.digitAttr) {
       if (ov) {
         if (ov === nv || isNotValid(ov)) return;
-        let $ov = this.querySelector(`.${this.clsPrefix}${ov}`)!;
+        const $ov = this.querySelector(`.${this.clsPrefix}${ov}`);
         if ($ov) {
           $ov.classList.remove('selected');
           $ov.ariaHidden = 'true';
         }
       }
       if (isNotValid(nv)) return;
-      let $nv =  this.querySelector(`.${this.clsPrefix}${nv}`)!;
+      const $nv =  this.querySelector(`.${this.clsPrefix}${nv}`);
       if ($nv) {
         $nv.classList.add('selected');
         $nv.ariaHidden = 'false';

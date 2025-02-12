@@ -138,7 +138,7 @@ export default class LFPProgressbar extends HTMLElement {
    * </script>
    * ```
    */
-  setValue(value: number, abs: boolean = true) {
+  setValue(value: number, abs = true) {
     let newValue = value;
     if (abs) newValue /= this.max;
     newValue = Math.min(newValue, 1);
@@ -166,7 +166,7 @@ export default class LFPProgressbar extends HTMLElement {
    * ```
    */
   static update(id: string, value: number) {
-    let progressbar = document.querySelector(id.startsWith('#') ? id : `#${id}`);
+    const progressbar = document.querySelector(id.startsWith('#') ? id : `#${id}`);
     if (!progressbar) return;
     
     (progressbar as LFPProgressbar).setValue(value);

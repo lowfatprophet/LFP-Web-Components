@@ -87,26 +87,26 @@ export default class LFPToC extends HTMLElement {
   #setupObserver() {
     const observer = new IntersectionObserver(entries => {
       if (entries.length === 0) {
-        this.headings.forEach(h => {
+        for (const h of this.headings) {
           this.querySelector(`a[href="${h.id}"]`)?.classList.remove('current-heading');
-        });
+        }
       }
-      entries.forEach(entry => {
+      for (const entry of entries) {
         if (!entry.isIntersecting) return;
-        this.headings.forEach(heading => {
-          let tocItem = this.querySelector(`a[href="#${heading.id}"]`);
+        for (const heading of this.headings) {
+          const tocItem = this.querySelector(`a[href="#${heading.id}"]`);
           if (!tocItem) return;
           tocItem.classList[
             entry.target.id === heading.id ? 'add' : 'remove'
           ]('current-heading');
-        });
-      });
+        }
+      }
     }, {
       root: document,
       rootMargin: `0px 0px -${window.innerHeight * 0.4}px 0px`,
     });
 
-    this.headings.forEach(heading => observer.observe(heading));
+    for (const heading of this.headings) { observer.observe(heading); }
   }
 
   /**
@@ -121,30 +121,34 @@ export default class LFPToC extends HTMLElement {
     
     if (isValidAttr('set-id', this, true)) this.#setId(this.headings);
 
-    let list = this.#createListElement(this.headings, 0)[0];
+    const list = this.#createListElement(this.headings, 0)[0];
     list.ariaDescription = 'Table of Contents';
     
     this.replaceChildren(list);
   }
 
   #collectHeadings() {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const root = (isValidAttr('toc-root', this) && document.querySelector(this.getAttribute('toc-root')!)) || document;
     
     return root.querySelectorAll<HTMLHeadingElement>(
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       this.minLevel === 0 && this.maxLevel === 0 && isValidAttr('add-items', this) ? this.getAttribute('add-items')! : this.#createSelectorStr()
     );
   }
 
   #setId(headings: NodeListOf<HTMLHeadingElement>) {
-    let ids: Record<string, number> = {};
-    headings.forEach(heading => {
-      if (!heading.textContent || heading.id !== '') return;
-      let id = heading.textContent
+    const ids: Record<string, number> = {};
+    for (const heading of headings) {
+      if (!heading.textContent || heading.id !== '') continue;
+      const id = heading.textContent
         .replaceAll(' ', '-')
         .toLowerCase();
-      ids[id] = ids[id] ? ids[id] + 1 : 1;
-      heading.id = ids[id] > 1 ? `${id}-${ids[id]}` : id;
-    });
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      ids[id] = id in ids ? ids[id]! + 1 : 1;
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      heading.id = id in ids && ids[id]! > 1 ? `${id}-${ids[id]}` : id;
+    }
   }
 
   /**
@@ -160,7 +164,7 @@ export default class LFPToC extends HTMLElement {
       return Array(this.minLevel - this.maxLevel)
       .fill(this.maxLevel)
       .reduce((acc, cv, idx, arr) => {
-        return acc += `h${cv + idx + 1}${arr.length - 1 !== idx ? ',' : ''}`
+        return `${acc}h${cv + idx + 1}${arr.length - 1 !== idx ? ',' : ''}`
       }, `h${this.maxLevel}${this.minLevel !== this.maxLevel ? ',' : ''}`)
       .concat(isValidAttr('add-items', this) ? `${this.getAttribute('add-items')}` : '');
     } catch {
@@ -177,42 +181,43 @@ export default class LFPToC extends HTMLElement {
    * `HTMLUListElemnet`) at index 0 and the current iteration's index at index 1.
    */
   #createListElement(headings: NodeListOf<HTMLHeadingElement>, idx: number) {
+    let index = idx;
     const getLevel = (h: HTMLHeadingElement | undefined) => Number(h?.tagName[1]);
     const isAlone = () => {
       let alone = true;
-      [...headings].slice(idx).find((_, i) => {
-        if (getLevel(headings[idx]) === getLevel(headings[idx + i + 1])) alone = false;
-        return getLevel(headings[idx]) >= getLevel(headings[idx + i + 1]);
+      [...headings].slice(index).find((_, i) => {
+        if (getLevel(headings[index]) === getLevel(headings[index + i + 1])) alone = false;
+        return getLevel(headings[index]) >= getLevel(headings[index + i + 1]);
       });
       return alone;
     }
 
-    let list = document.createElement(
+    const list = document.createElement(
       isAlone() || isValidAttr('no-numeration', this ,true) ? 'ul' : 'ol'
     );
     
-    while (idx < headings.length) {
-      if (getLevel(headings[idx]) < this.maxLevel) {
+    while (index < headings.length) {
+      if (getLevel(headings[index]) < this.maxLevel) {
         this.maxLevel--;
         break;
       }
       
-      let li = document.createElement('li');
-      li.innerHTML = `<a href="#${headings[idx]!.id}">${headings[idx]!.textContent}</a>`;
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#${headings[index]?.id}">${headings[index]?.textContent}</a>`;
       
-      idx++;
+      index++;
 
-      if (getLevel(headings[idx]) > this.maxLevel) {
-        this.maxLevel = getLevel(headings[idx]);
+      if (getLevel(headings[index]) > this.maxLevel) {
+        this.maxLevel = getLevel(headings[index]);
         let subList: HTMLOListElement | HTMLUListElement;
-        [subList, idx] = this.#createListElement(headings, idx);
+        [subList, index] = this.#createListElement(headings, index);
         li.append(subList);
       }
       
       list.append(li);
     }
 
-    return [list, idx] as const;
+    return [list, index] as const;
   }
 }
 

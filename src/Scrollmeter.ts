@@ -1,14 +1,18 @@
 import { addStylesheet } from "./utilities.js";
 
+export interface LFPScrollProgressEvent extends CustomEvent {
+  detail: {
+    emitter: string;
+    progress: number;
+  },
+}
+
 /**
  * A web component signalling the user's scroll progress over a given containing
  * element on the page. Currently, only `document` (i.e., the `body` element) is
  * available for scroll tracking; more to come in the near future.
- * @attr scroll-element - Specify the element on which the scroll meter should
- * be applied. **Important**: Currently not implemented.
  */
 export default class LFPScrollMeter extends HTMLElement {
-  // container: Element | null;
   /**
    * @internal
    */
@@ -32,11 +36,9 @@ export default class LFPScrollMeter extends HTMLElement {
   constructor() {
     super();
 
-    // this.container = isValidAttr('scroll-element', this, true) ?
-    //   document.querySelector('scroll-element') : null;
-
     this.meter.classList.add('meter');
     this.append(this.meter);
+    this.id = this.id.length === 0 ? `scrollmeter-${crypto.randomUUID()}` : this.id;
 
     addStylesheet(/* css */ `lfp-scrollmeter {
       display: block;
@@ -54,10 +56,13 @@ export default class LFPScrollMeter extends HTMLElement {
 
     window.addEventListener('load', this.#init.bind(this));
 
-    window.addEventListener('scroll', _ => {
-      requestAnimationFrame(
-        () => this.meter.style.scale = `${window.scrollY / this.pageHeight} 1`
-      );
+    window.addEventListener('scroll', () => {
+      const progress = window.scrollY / this.pageHeight;
+      this.dispatchEvent(new CustomEvent('lfp:scrollprogress', {
+        bubbles: true,
+        detail: { progress: progress, emitter: this.id },
+      }) as LFPScrollProgressEvent);
+      requestAnimationFrame(() => { this.meter.style.scale = `${progress} 1` });
     });
 
     window.addEventListener('resize', this.#init.bind(this));
@@ -67,9 +72,6 @@ export default class LFPScrollMeter extends HTMLElement {
     this.barSize = this.getBoundingClientRect().width;
     this.viewportHeight = window.innerHeight;
     this.pageHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.scrollHeight) - this.viewportHeight;
-    // this.pageHeight = this.container ?
-    //   this.container.getBoundingClientRect().height :
-    //   Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.scrollHeight) - this.viewportHeight;
   }
 }
 
