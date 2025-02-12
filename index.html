@@ -145,6 +145,7 @@
       <section>
         <h2 id="disclosure-component">Disclosure component</h2>
         <p>Simply used with <code>&lt;lfp-disclosure&gt;&lt;/lfp-disclosure&gt;</code>. Add the <code>[trigger]</code> and <code>[content]</code> elements inside the component.</p>
+        <p>Be wise and use the platform's native <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>&lt;details&gt;</code> solution</a>, it guarantees stability and accessibility while offering sensible fallbacks as well.</p>
         <div class="demo-area" description="Test the disclosure component!">
           <lfp-disclosure>
             <button trigger hidden>Click me!</button>
@@ -159,7 +160,13 @@
       <section>
         <h2 id="scrollmeter-component">Scrollmeter component</h2>
         <p>You witness it the whole time visiting this page at the top border of the viewport.</p>
-        <p>Every time the scrollmeter grows or shrinks in size a custom event gets emitted and bubbles. Simply add a listener on the scrollmeter itself or one of its ascendents and listen for <code>lfp:scrollprogress</code>; the current progress in per cent is given under <code>event.detail.progress</code>.</p>
+        <p>Every time the scrollmeter grows or shrinks in size a custom event gets emitted and bubbles. Simply add a listener on the scrollmeter itself or one of its ascendents and listen for <code>lfp:scrollprogress</code> and provides the following information:</p>
+        <pre data-lang="js">{
+  detail: {
+    emitter: string,   // the scrollmeter's id
+    progress: number,  // the current scroll progression
+  },
+}</pre>
         <div class="demo-area" description="The scrollmeter's scroll progress event!">
           <div id="scrollmeter-example"></div>
           <script defer>
@@ -184,7 +191,7 @@
           <li>the animation's name starts with <code>"toast..."</code></li>
         </ul>
         <p>Trigger an toast by emitting a new toast with <code>LFPToast.emit(description, title?, dismissable=false)</code>. Alternatively, dispatch your own event: LFPToast listens to <code>'lfp:toast'</code> and requires your event to feature:</p>
-        <pre>{
+        <pre data-lang="js">{
   detail: {
     title: string,
     description: string,
