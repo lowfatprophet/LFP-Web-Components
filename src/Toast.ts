@@ -1,6 +1,6 @@
 import { addStylesheet, isValidAttr } from "./utilities.js";
 
-interface LFPToastEvent extends CustomEvent {
+export interface LFPToastEvent extends CustomEvent {
   detail: {
     title?: string;
     description: string;

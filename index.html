@@ -158,7 +158,21 @@
       <!-- Scrollmeter -->
       <section>
         <h2 id="scrollmeter-component">Scrollmeter component</h2>
-        <p>You witness it the whole time visiting this page,</p>
+        <p>You witness it the whole time visiting this page at the top border of the viewport.</p>
+        <p>Every time the scrollmeter grows or shrinks in size a custom event gets emitted and bubbles. Simply add a listener on the scrollmeter itself or one of its ascendents and listen for <code>lfp:scrollprogress</code>; the current progress in per cent is given under <code>event.detail.progress</code>.</p>
+        <div class="demo-area" description="The scrollmeter's scroll progress event!">
+          <div id="scrollmeter-example"></div>
+          <script defer>
+            const $scrollmeterExample = document.querySelector('#scrollmeter-example');
+            document.documentElement.addEventListener('lfp:scrollprogress', event => {
+              requestAnimationFrame(() => {
+                $scrollmeterExample.innerHTML =
+                `<code>${event.detail.emitter}</code> emits: ${Math.round(event.detail.progress * 100)}%`;
+              });
+            });
+            console.log('Hallo von hier unten!');
+          </script>
+        </div>
       </section>
   
       <!-- Toast -->
