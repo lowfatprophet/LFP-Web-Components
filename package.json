@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/lowfatprophet/LFP-Web-Components#readme",
   "scripts": {
-    "watch": "tsc watch && npx cem analyze"
+    "watch": "tsc watch && npx cem analyze",
+    "test": "jest"
   },
   "type": "module",
   "browserslist": "> 0.5%, last 2 versions, not dead",
@@ -37,8 +38,30 @@
     }
   },
   "devDependencies": {
+    "@babel/core": "^7.26.8",
+    "@babel/preset-env": "^7.26.8",
+    "@babel/preset-typescript": "^7.26.0",
     "@custom-elements-manifest/analyzer": "^0.10.3",
+    "@open-wc/testing-helpers": "^3.0.1",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
     "styled-components": "^6.1.12",
+    "testing-library__dom": "^7.29.4-beta.1",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.5.4"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/js-with-babel",
+    "testRegex": "./src/tests/*.ts",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(testing-library__dom|@open-wc|lit-html|lit-element|pure-lit|lit-element-state-decoupler)/)"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/tests/testSetup.ts"
+    ]
   }
 }

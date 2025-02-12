@@ -326,45 +326,6 @@
           <p>The component's default color is currently set to <code>#000</code> but can be changed with <code>lfp-nixie-tube { --_font-clr: &lt;color&gt;; }</code>. Just keep in mind that it is advised that you use fully opaque colors.</p>
           <p><b>Caution</b>: The <code>color(&lt;color&gt; from xyz x y z / a);</code> syntax used in this component does currently not support color inference from <code>currentcolor</code>, <code>initial</code> and <code>inherit</code>.</p>
         </dd>
-<<<<<<< HEAD
-      </dl>
-    </section>
-
-    <!-- Menu -->
-    <section>
-      <h2 id="toolbar-component">Toolbar component</h2>
-      <p>W3C compliant toolbar component.</p>
-      <div class="demo-area" description="Menu">
-        <lfp-toolbar menu-orientation="horizontal">
-          <button>Button 1</button>
-          <button>Button 2</button>
-          <button>Button 3</button>
-        </lfp-toolbar>
-      </div>
-    </section>
-
-    <section>
-      <h2>General info</h2>
-      <h3>Usage</h3>
-      <p>All web components can work for themselves and do not have any dependencies, neither for development or building nor for production.</p>
-      <h3>JS</h3>
-      <p>Simply link to the JavaScript file or include it with your source code and import the necessary classes to instantiate the components.</p>
-      <h3>CSS</h3>
-      <p>The CSS is mostly simple and based on selecting the component by its tag rather than by class or identifier. This has the advantage for you to simply override the web component by adding your own classes and/or identifiers.</p>
-      <p>Speaking of styling: have it even simpler and use CSS layers. All components are placed on their own layer `lfp` which you can place anywhere you wish on your layer hierarchy. This is a possible configuration:</p>
-      <pre><code>@layer reset, lfp, base, layout, components;</code></pre>
-      <p>This way you can ensure to not let shine through any of the component's base  style through your design system.</p>
-    </section>
-  </main>
-
-  <footer>
-    <h2>Acknowledgements</h2>
-    <ul>
-      <li>The colors used to create this site are taken from the gorgeous color palette of the <a href="https://tailwindcss.com/docs/customizing-colors#default-color-palette">Tailwind project</a>. I don't usually use their tools but I must say, they got some tasty color palettes.</li>
-    </ul>
-  </footer>
-
-=======
           <dt>Appearance</dt>
           <dd><p>By default the currently active digit is moved to the top most layer of its "stack of digits" for better readablity. If you'd prefer to preserve the "physical" order of the digits from "0" in the back all the way to "9" in the front, add <code>preserve-stack</code> as an attribute to <code>lfp-nixie-tube</code>.</p></dd>
           <dt>Behavior</dt>
@@ -410,6 +371,5 @@
       </ul>
     </footer>
   </div>
->>>>>>> 245e3ddc680664589959f9942a62eca2403b0538
 </body>
 </html>
