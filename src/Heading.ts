@@ -48,8 +48,8 @@ export default class LFPHeading extends HTMLElement {
         .link-symbol {
           text-decoration: none;
           /* The following styles are include, because "visibility: hidden/visible" would make the link inaccessible for keyboard users (tabbing through the page would not detect this link). Would this be actually a good thing? I don't know. */
-          width: 1px;
-          height: 1px;
+          inline-size: 1px;
+          block-size: 1px;
           margin: -1px;
           clip: (0, 0, 0, 0);
           overflow: hidden;
@@ -58,8 +58,8 @@ export default class LFPHeading extends HTMLElement {
         }
 
         &:is(:hover, :focus, :focus-within) .link-symbol {
-          width: auto;
-          height: auto;
+          inline-size: auto;
+          block-size: auto;
           margin: initial;
           clip: auto;
           overflow: auto;

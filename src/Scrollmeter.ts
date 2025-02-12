@@ -40,12 +40,12 @@ export default class LFPScrollMeter extends HTMLElement {
 
     addStylesheet(/* css */ `lfp-scrollmeter {
       display: block;
-      width: 100%;
-      height: 5px;
+      inline-size: 100%;
+      block-size: 5px;
 
       .meter {
-        width: 100%;
-        height: 100%;
+        inline-size: 100%;
+        block-size: 100%;
         background: green;
         scale: 0 1;
         transform-origin: left;

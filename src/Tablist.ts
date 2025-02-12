@@ -117,9 +117,9 @@ export default class LFPTablist extends HTMLElement {
       }
   
       [role="tabpanel"] {
-        height: calc-size(auto);
+        block-size: calc-size(auto);
         overflow: hidden;
-        transition: height 0.3s;
+        transition: block-size 0.3s;
 
         &.keep-size {
           grid-area: content;
@@ -128,7 +128,7 @@ export default class LFPTablist extends HTMLElement {
         &:not([aria-selected="true"]) {
           visibility: hidden;
 
-          &:not(.keep-size) { height: 0; }
+          &:not(.keep-size) { block-size: 0; }
         }
       }
     }`);

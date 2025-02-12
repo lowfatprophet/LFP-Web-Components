@@ -34,12 +34,12 @@ export default class LFPToast extends HTMLElement {
         box-sizing: border-box;
         list-style: none;
         position: fixed;
-        bottom: 1rem;
-        left: 1rem;
+        inset-block-end: 1rem;
+        inset-inline-start: 1rem;
         display: flex;
         flex-direction: column-reverse;
         gap: 1rem;
-        max-width: min(65ch, calc(100% - 2rem));
+        max-inline-size: min(65ch, calc(100% - 2rem));
         margin: 0;
         padding: 0;
         font-size: 0.875rem;
@@ -74,7 +74,7 @@ export default class LFPToast extends HTMLElement {
           button {
             grid-row: 1 / 3;
             align-self: center;
-            width: 20px;
+            inline-size: 20px;
             aspect-ratio: 1;
             padding: 0.75rem;
             border: none;
