@@ -6,11 +6,11 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "target": "ESNext",
-        "verbatimModuleSyntax": true,
+        "verbatimModuleSyntax": false,
         // "noEmit": true,
         "noEmitHelpers": true,
         "importHelpers": true,
-        // "moduleResolution": "nodenext",
+        "moduleResolution": "nodenext",
         "moduleDetection": "force",
 
         "outDir": "lib",

@@ -1,5 +1,3 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
-beforeEach(() => {
-  jest.resetAllMocks;
-});
+beforeEach(() => jest.resetAllMocks);
