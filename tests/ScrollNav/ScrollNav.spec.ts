@@ -4,33 +4,42 @@ const componentName = 'lfp-scroll-nav';
 const testPath = '/tests/ScrollNav';
 
 test.describe(`<${componentName}>`, () => {
-  test('has scroll container element', async ({ page }) => {
+  test('has correct layout', async ({ page }) => {
     await page.goto(`${testPath}/default.html`);
 
-    const component = page.locator(componentName);
-    await expect(component).toBeAttached();
+    // component exists
+    const wc = page.locator(componentName);
+    await expect(wc).toBeAttached();
     
-    const scrollContainer = component.locator(`[scroll-container]`);
-    expect(scrollContainer).toBeDefined();
-  });
-  
-  test('has previous button', async ({ page }) => {
-    await page.goto(`${testPath}/default.html`);
-  
-    const component = page.locator(componentName);
-    await expect(component).toBeAttached();
+    // scroll container exists
+    const scrollContainer = wc.locator(`[scroll-container]`);
+    expect(scrollContainer).toHaveAttribute('scroll-container');
 
-    const previousBtn = component.locator('button:first-of-type');
-    expect(previousBtn).toBeDefined();
-  });
+    // proper link count
+    const linkCount = await scrollContainer.locator('li').count();
+    expect(linkCount).toBe(5);
 
-  test('has next button', async ({ page }) => {
-    await page.goto(`${testPath}/default.html`);
+    const immediateChildren = wc.locator('> *');
 
-    const component = page.locator(componentName);
-    await expect(component).toBeAttached();
+    // check if first child is button with correct layout
+    expect(immediateChildren.first()).toHaveAttribute('data-trigger');
+    expect(immediateChildren.first()).toHaveText('❮');
 
-    const nextBtn = component.locator('button:last-of-type');
-    expect(nextBtn).toBeDefined();
+    // check if last child is button with correct layout
+    expect(immediateChildren.last()).toHaveAttribute('data-trigger');
+    expect(immediateChildren.last()).toHaveText('❯');
+
+    const componentWidth = (await wc.boundingBox())?.width;
+    const scrollContainerWidth = (await scrollContainer.boundingBox())?.width;
+
+    if (componentWidth && scrollContainerWidth) {
+      // if component width is smaller than scroll container width
+      // the second button is expected to not be disabled to enable scrolling.
+      if (componentWidth < scrollContainerWidth) {
+        expect(immediateChildren.last()).not.toHaveAttribute('disabled');
+      } else {
+        expect(immediateChildren.last()).toHaveAttribute('disabled');
+      }
+    }
   });
 });
