@@ -1,4 +1,4 @@
-import { addStylesheet, idify } from "./utilities.js";
+import { addStylesheet, idify } from './utilities.js';
 
 type ButtonPosition = 'both' | 'none' | 'left' | 'right';
 
@@ -32,21 +32,27 @@ export class LFPScrollNav extends HTMLElement {
   static elementName = 'lfp-scroll-nav';
   private _$scrollContainer = this.querySelector('[scroll-container]');
   private _$scrollTarget!: HTMLElement | null;
+  private _hideBtns = (['left', 'right', 'both', 'none'] as ButtonPosition[]).find(
+      d => d === this.getAttribute('hide-buttons')?.toLowerCase()
+    ) || 'none';
   private _$prevBtn = this.#createBtn(
     this.getAttribute('previous-text') || '❮', 'afterbegin'
   );
   private _$nextBtn = this.#createBtn(
     this.getAttribute('next-text') || '❯', 'beforeend'
   );
-  private _hideBtns = (["left", "right", "both", "none"] as ButtonPosition[]).find(
-      d => d === this.getAttribute("hide-buttons")?.toLowerCase()
-    ) || "none";
   private _toggleBtns = Number(this.getAttribute('toggle-buttons')) || 10;
-  private _gap = Number(this.getAttribute('test'));
   private _scrollFactor = Number(this.getAttribute('scroll-distance')) || 1;
   private _scrollOffset = Number(this.getAttribute('scroll-offset')) || 0;
-  private _listWidth!: number;
   private _inlinePadding!: number;
+  private _gap!: number;
+  private _resizeObserver = new ResizeObserver(() => this.#toggleBtns());
+
+  private set _scrollTarget(newTarget: HTMLElement) {
+    this._$scrollTarget?.classList.remove('scroll-target');
+    this._$scrollTarget = newTarget;
+    this._$scrollTarget.classList.add('scroll-target');
+  }
 
   constructor() {
     super();
@@ -139,7 +145,6 @@ export class LFPScrollNav extends HTMLElement {
     if (scrollTargetId) this.#scrollToTarget(idify(scrollTargetId));
 
     // set up layout
-    this._listWidth = this._$scrollContainer.getBoundingClientRect().width;
     const computedStyles = getComputedStyle(this);
     this._inlinePadding =
       this.#pxStr2Num(this.#getStyle(computedStyles, 'padding-inline-start')) +
@@ -157,13 +162,14 @@ export class LFPScrollNav extends HTMLElement {
     this.#toggleBtns();
 
     // start listening
-    window.addEventListener("resize", this);
-    this._$scrollContainer.addEventListener("scroll", this);
-    this.addEventListener("click", this);
+    this._$scrollContainer.addEventListener('scroll', this);
+    this.addEventListener('click', this);
+
+    this._resizeObserver.observe(this);
   }
 
   disconnectedCallback(): void {
-    window.removeEventListener('resize', this);
+    this._resizeObserver.disconnect();
   }
 
   attributeChangedCallback(name: string, _: string | null, newVal: string | null): void {
@@ -214,22 +220,8 @@ export class LFPScrollNav extends HTMLElement {
     if (!this._$scrollContainer) return;
     const scrollTarget = this._$scrollContainer.querySelector(id);
     if (!scrollTarget) return;
-    if (this._$scrollTarget)
-      this._$scrollTarget.classList.remove('scroll-target');
-    scrollTarget.classList.add('scroll-target');
-    this._$scrollTarget = scrollTarget as HTMLElement;
-    this._$scrollContainer.scroll(this._$scrollTarget.offsetLeft - this._gap * 1.5, 0);
-  }
-
-  /**
-   * Check if the list is overflowing within the scroll element.
-   * @returns {boolean} True if list is overflowing
-   */
-  #isOverflowing(): boolean {
-    return !(
-      this.getBoundingClientRect().width - this._inlinePadding <
-      this._listWidth
-    );
+    this._scrollTarget = scrollTarget as HTMLElement;
+    this._$scrollContainer.scroll(this._scrollTarget.offsetLeft - this._gap * 1.5, 0);
   }
 
   /**
@@ -238,7 +230,10 @@ export class LFPScrollNav extends HTMLElement {
    */
   #toggleBtns(): void {
     if (!this._$scrollContainer) return;
-    if (this.#isOverflowing()) {
+    if (
+      this.getBoundingClientRect().width - this._inlinePadding <
+      this._$scrollContainer.scrollWidth
+    ) {
       this._$prevBtn[
         this._$scrollContainer.scrollLeft >= this._toggleBtns
           ? 'removeAttribute'
@@ -252,14 +247,8 @@ export class LFPScrollNav extends HTMLElement {
           : 'setAttribute'
       ]('disabled', '');
     } else {
-      if (this._$scrollContainer.scrollLeft < this._toggleBtns)
-        this._$prevBtn.setAttribute('disabled', '');
-      // could use scrollLeftMax but is non-standard
-      if (
-        this._$scrollContainer.scrollLeft > this._$scrollContainer.clientWidth ||
-        this._$scrollContainer.clientWidth < this.clientWidth
-      )
-        this._$nextBtn.setAttribute('disabled', '');
+      this._$prevBtn.setAttribute('disabled', '');
+      this._$nextBtn.setAttribute('disabled', '');
     }
   }
 
@@ -275,7 +264,6 @@ export class LFPScrollNav extends HTMLElement {
     btn.textContent = label;
     btn.dataset.trigger = pos;
     btn.ariaHidden = 'true';
-    if (!this.#isOverflowing()) btn.setAttribute('disabled', '');
     this.insertAdjacentElement(pos, btn);
     return btn;
   }
