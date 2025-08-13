@@ -13,6 +13,7 @@
     import './lib/Numberinput.js';
     import './lib/Progressbar.js';
     import './lib/Scrollmeter.js';
+    import './lib/ScrollNav.js';
     import './lib/Skeleton.js';
     import './lib/Tablist.js';
     import LFPToast from './lib/Toast.js';
@@ -130,13 +131,13 @@
         </ul>
         <h3>Example usage</h3>
         <p>The above mentioned customization settings can be used as follows:</p>
-        <pre>&lt;lfp-toc min-level="4" max-level="3" add-items="dt" toc-root="main" set-id no-numeration&gt;&lt;/lfp-toc&gt;</pre>
-        <p>This ToC component is...</p>
+        <pre data-lang="html">&lt;lfp-toc min-level="4" max-level="3" add-items="dt" toc-root="main" set-id no-numeration&gt;&lt;/lfp-toc&gt;</pre>
+        <p>This ToC component is&hellip;</p>
         <ul>
-          <li>... displaying only headings of level 3 and 4 (<code>h3</code>, <code>h4</code>),</li>
-          <li>... additionally showing <code>dt</code> elements,</li>
-          <li>... setting IDs to elements without one,</li>
-          <li>... and displays an unordered (i.e., not numbered) list.</li>
+          <li>&hellip; displaying only headings of level 3 and 4 (<code>h3</code>, <code>h4</code>),</li>
+          <li>&hellip; additionally showing <code>dt</code> elements,</li>
+          <li>&hellip; setting IDs to elements without one,</li>
+          <li>&hellip; and displays an unordered (i.e., not numbered) list.</li>
         </ul>
         <p>Have a look at this <a href="examples/toctest.html">example</a> for a thourough demonstration of the capabilities of <code>&lt;lfp-toc&gt;&lt;lfp-toc&gt;</code>.</p>
       </section>
@@ -209,6 +210,31 @@
           </form>
         </div>
         <lfp-toast close-delay="2500" animation-delay="500"></lfp-toast>
+      </section>
+
+      <section>
+        <h2 id="scroll-nav-component">Scroll Navigation Component</h2>
+        <div class="demo-area" description="Scroll through the horizontal scroll navigation!">
+          <lfp-scroll-nav>
+            <ul scroll-container>
+              <li>Item 00</li>
+              <li>Item 01</li>
+              <li>Item 02</li>
+              <li>Item 03</li>
+              <li>Item 04</li>
+              <li>Item 05</li>
+              <li>Item 06</li>
+              <li>Item 07</li>
+              <li>Item 08</li>
+              <li>Item 09</li>
+              <li>Item 10</li>
+              <li>Item 11</li>
+              <li>Item 12</li>
+              <li>Item 13</li>
+              <li>Item 14</li>
+            </ul>
+          </lfp-scroll-nav>
+        </div>
       </section>
       
       <!-- Tablist -->

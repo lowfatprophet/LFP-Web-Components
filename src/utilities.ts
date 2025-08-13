@@ -10,11 +10,11 @@ export class StorageController {
   private readonly name: string;
   /**
    * 
-   * @param {string} name The main key of the structure. The relevant data structure is
-   * located on the second level of the storage object.
+   * @param {string} name The main key of the structure. The relevant data
+   * structure is located on the second level of the storage object.
    * @param {StorageFacility} [storage=window.localStorage] The storage object.
    */
-  constructor(name: string, storage = window.localStorage) {
+  constructor(name: string, storage: StorageFacility = window.localStorage) {
     this.storage = storage;
     this.name = name;
 
@@ -38,7 +38,7 @@ export class StorageController {
   /**
    * https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
    */
-  #reviver(_: string, value: any): any {
+  #reviver(_: string, value: any): unknown {
     if (typeof value === 'object' && value !== null) {
       if (value.dataType === 'Map') {
         return new Map(value.value);
@@ -126,15 +126,27 @@ export function css(temps: TemplateStringsArray, ...args: string[]) {
  * there is a value (because your component depends on it) you have to actively
  * check for this, too. This function offers a short-hand for this process.
  * @param {string} attr The attribute's name.
- * @param {HTMLElement} target The target element from which the attribute should
- * be taken. Use `this` in class context of web components.
+ * @param {HTMLElement} target The target element from which the attribute
+ * should be taken. Use `this` in class context of web components.
  * @param {boolean} bool Flag if you expect the attribute to function as a
  * boolean indicator, i.e., the attribute does not need a value and this
  * function is only checking if the attribute is present on the element at all
  * @returns {boolean}
  */
-export function isValidAttr(attr: string, target: HTMLElement, bool = false): boolean {
+export function isValidAttr(
+  attr: string, target: HTMLElement, bool: boolean = false
+): boolean {
   const val = target.getAttribute(attr);
   if (bool) return val !== null;
   return val !== '' || val !== null;
+}
+
+/**
+ * Converts any string into an ID with leading pound symbol. Leaves the string 
+ * otherwise unaltered.
+ * @param {string} idStr The string to be IDified.
+ * @returns {`#${string}`} The given string with pound symbol at the start.
+ */
+export function idify(idStr: string): `#${string}` {
+  return `#${idStr.replace('#', '')}`;
 }

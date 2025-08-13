@@ -59,6 +59,40 @@
     },
     {
       "kind": "javascript-module",
+      "path": "lib/Gallery.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LFPGallery",
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "lfp-gallery",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "LFPGallery",
+            "module": "lib/Gallery.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "lfp-gallery",
+          "declaration": {
+            "name": "LFPGallery",
+            "module": "lib/Gallery.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "lib/Heading.js",
       "declarations": [
         {
@@ -378,6 +412,259 @@
     },
     {
       "kind": "javascript-module",
+      "path": "lib/ScrollNav.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "This class creates a horizontally scrollable navigation menu. Parts of the\nmenu that overflow the containing element's width are accessible via scrolling\nor optionally buttons. This kind of navigation is often seen as top level\nnavigation with news sites or shops.",
+          "name": "LFPScrollNav",
+          "members": [
+            {
+              "kind": "field",
+              "name": "elementName",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'lfp-scroll-nav'"
+            },
+            {
+              "kind": "field",
+              "name": "_$scrollContainer"
+            },
+            {
+              "kind": "field",
+              "name": "_$scrollTarget"
+            },
+            {
+              "kind": "field",
+              "name": "_$prevBtn"
+            },
+            {
+              "kind": "field",
+              "name": "_$nextBtn"
+            },
+            {
+              "kind": "field",
+              "name": "_hideBtns"
+            },
+            {
+              "kind": "field",
+              "name": "_toggleBtns"
+            },
+            {
+              "kind": "field",
+              "name": "_gap"
+            },
+            {
+              "kind": "field",
+              "name": "_scrollFactor"
+            },
+            {
+              "kind": "field",
+              "name": "_scrollOffset"
+            },
+            {
+              "kind": "field",
+              "name": "_listWidth"
+            },
+            {
+              "kind": "field",
+              "name": "_inlinePadding"
+            },
+            {
+              "kind": "method",
+              "name": "handleEvent",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#scrollToTarget",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "id",
+                  "description": "The id of the element to look for",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Scrolls to the element with given id."
+            },
+            {
+              "kind": "method",
+              "name": "#isOverflowing",
+              "privacy": "private",
+              "description": "Check if the list is overflowing within the scroll element.",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#toggleBtns",
+              "privacy": "private",
+              "description": "Toggles button visibility determined by scroll position and\ncontainer width."
+            },
+            {
+              "kind": "method",
+              "name": "#createBtn",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "label",
+                  "description": "`textContent` for the button element",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "pos",
+                  "description": "The position at which the button element is\ninserted inside the component (must comply to `insertAdjacentElement`)",
+                  "type": {
+                    "text": "InsertPosition"
+                  }
+                }
+              ],
+              "description": "Creates a button with given label and position.",
+              "return": {
+                "type": {
+                  "text": "HTMLButtonElement"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#getStyle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "styles",
+                  "description": "The element's styles from with the\nproperty value should be taken",
+                  "type": {
+                    "text": "CSSStyleDeclaration"
+                  }
+                },
+                {
+                  "name": "property",
+                  "description": "The requested property",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Gets the associated value for the given property",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#pxStr2Num",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "str",
+                  "description": "The string to convert",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Removes the 'px' suffix of strings and converts to number.",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "scroll-target",
+              "type": {
+                "text": "string"
+              },
+              "description": "-"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "-",
+              "name": "scroll-distance"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "-",
+              "name": "scroll-offset"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "-",
+              "name": "toggle-buttons"
+            },
+            {
+              "type": {
+                "text": "\"none\", \"both\", \"left\", \"right\""
+              },
+              "description": "-",
+              "name": "hide-buttons"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "-",
+              "name": "previous-text"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "-",
+              "name": "next-text"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LFPScrollNav",
+          "declaration": {
+            "name": "LFPScrollNav",
+            "module": "lib/ScrollNav.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "declaration": {
+            "name": "LFPScrollNav",
+            "module": "lib/ScrollNav.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "lib/Scrollmeter.js",
       "declarations": [
         {
@@ -389,12 +676,10 @@
               "kind": "method",
               "name": "#init",
               "privacy": "private"
-            }
-          ],
-          "attributes": [
+            },
             {
-              "description": "Specify the element on which the scroll meter should be applied. **Important**: Currently not implemented.",
-              "name": "scroll-element"
+              "kind": "field",
+              "name": "id"
             }
           ],
           "superclass": {
@@ -582,6 +867,15 @@
           "description": "This class creates a comprehensive table of contents from a list of given\nheadings found in the document. The ToC can be updated during runtime through\nlistening to the `lfp:update-toc` event on the document root.",
           "name": "LFPToC",
           "members": [
+            {
+              "kind": "method",
+              "name": "handleEvent",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
             {
               "kind": "method",
               "name": "#setupObserver",
@@ -924,6 +1218,14 @@
         },
         {
           "kind": "js",
+          "name": "LFPGallery",
+          "declaration": {
+            "name": "LFPGallery",
+            "module": "lib/index.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "LFPNixie",
           "declaration": {
             "name": "LFPNixie",
@@ -1169,7 +1471,7 @@
             },
             {
               "name": "target",
-              "description": "The target element from which the attribute should\nbe taken. Use `this` in class context of web components.",
+              "description": "The target element from which the attribute\nshould be taken. Use `this` in class context of web components.",
               "type": {
                 "text": "HTMLElement"
               }
@@ -1187,6 +1489,25 @@
           "return": {
             "type": {
               "text": "boolean"
+            }
+          }
+        },
+        {
+          "kind": "function",
+          "name": "idify",
+          "parameters": [
+            {
+              "name": "idStr",
+              "description": "The string to be IDified.",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Converts any string into an ID with leading pound symbol. Leaves the string\notherwise unaltered.",
+          "return": {
+            "type": {
+              "text": "`#${string}`"
             }
           }
         }
@@ -1237,6 +1558,14 @@
           "name": "isValidAttr",
           "declaration": {
             "name": "isValidAttr",
+            "module": "lib/utilities.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "idify",
+          "declaration": {
+            "name": "idify",
             "module": "lib/utilities.js"
           }
         }
