@@ -23,7 +23,10 @@
   },
   "homepage": "https://github.com/lowfatprophet/LFP-Web-Components#readme",
   "scripts": {
-    "watch": "tsc watch && npx cem analyze"
+    "watch": "tsc watch && npx cem analyze",
+    "manifest": "npx cem analyze",
+    "test": "npx playwright test",
+    "start": "http-server"
   },
   "type": "module",
   "browserslist": "> 0.5%, last 2 versions, not dead",
@@ -37,8 +40,14 @@
     }
   },
   "devDependencies": {
-    "@custom-elements-manifest/analyzer": "^0.10.3",
-    "styled-components": "^6.1.12",
-    "typescript": "^5.5.4"
+    "@biomejs/biome": "2.1.4",
+    "@custom-elements-manifest/analyzer": "^0.10.5",
+    "@types/node": "^24.2.1",
+    "playwright": "^1.54.2",
+    "styled-components": "^6.1.19",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
   }
 }

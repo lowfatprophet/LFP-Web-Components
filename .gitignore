@@ -3,3 +3,6 @@ node_modules
 .parcel-cache
 babel.config.json
 package-lock.json
+.last-run.json
+playwright-report
+test-results

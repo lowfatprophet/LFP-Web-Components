@@ -5,3 +5,7 @@ examples
 tsconfig.json
 *.js.map
 index.html
+test-results
+tests
+playwright-report
+playwright.config.ts
