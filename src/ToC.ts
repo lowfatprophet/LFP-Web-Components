@@ -73,15 +73,24 @@ export default class LFPToC extends HTMLElement {
   }
 
   connectedCallback() {
-    document.addEventListener(
-      'DOMContentLoaded', this.#createToC.bind(this)
-    );
-
-    document.addEventListener(
-      'lfp:update-toc', this.#createToC.bind(this)
-    );
+    document.addEventListener('DOMContentLoaded', this);
+    document.addEventListener('lfp:update-toc', this);
 
     if (isValidAttr('mark-current', this, true))  this.#setupObserver();
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('DOMContentLoaded', this);
+    document.removeEventListener('lfp:update-toc', this);
+  }
+
+  handleEvent(event: Event) {
+    switch (event.type) {
+      case 'DOMContentLoaded':
+      case 'lfp:update-toc':
+        this.#createToC();
+        break;
+    }
   }
 
   #setupObserver() {
@@ -141,12 +150,15 @@ export default class LFPToC extends HTMLElement {
     const ids: Record<string, number> = {};
     for (const heading of headings) {
       if (!heading.textContent || heading.id !== '') continue;
-      const id = heading.textContent
-        .replaceAll(' ', '-')
-        .toLowerCase();
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      // https://gomakethings.com/how-to-generate-an-id-from-element-text/#generating-decolonial-ids
+      const id = `h_${heading.textContent
+        .replace(/[^a-zA-Z0-9-_\u00A00-\uFFEF\s-]/g, '-')
+        .replace(/[\s-]+/g, '-')
+        .replace(/^-|-$/g, '')
+      }`;
+      // biome-ignore lint/style/noNonNullAssertion: type assertion; `id` is a key to `ids`
       ids[id] = id in ids ? ids[id]! + 1 : 1;
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      // biome-ignore lint/style/noNonNullAssertion: type assertion; `id` is a key to `ids`
       heading.id = id in ids && ids[id]! > 1 ? `${id}-${ids[id]}` : id;
     }
   }
@@ -162,11 +174,11 @@ export default class LFPToC extends HTMLElement {
   #createSelectorStr(): string {
     try {
       return Array(this.minLevel - this.maxLevel)
-      .fill(this.maxLevel)
-      .reduce((acc, cv, idx, arr) => {
-        return `${acc}h${cv + idx + 1}${arr.length - 1 !== idx ? ',' : ''}`
-      }, `h${this.maxLevel}${this.minLevel !== this.maxLevel ? ',' : ''}`)
-      .concat(isValidAttr('add-items', this) ? `${this.getAttribute('add-items')}` : '');
+        .fill(this.maxLevel)
+        .reduce((acc, cv, idx, arr) => {
+          return `${acc}h${cv + idx + 1}${arr.length - 1 !== idx ? ',' : ''}`
+        }, `h${this.maxLevel}${this.minLevel !== this.maxLevel ? ',' : ''}`)
+        .concat(isValidAttr('add-items', this) ? `${this.getAttribute('add-items')}` : '');
     } catch {
       throw RangeError('`min-level` has to be larger than `max-level`');
     }
